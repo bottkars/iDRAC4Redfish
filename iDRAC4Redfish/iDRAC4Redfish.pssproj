@@ -31,6 +31,7 @@
     <Compile Include="iDRAC4Redfish.psd1" />
     <Compile Include="iDRAC4Redfish.psm1" />
     <Compile Include="iDRAC4Redfish.tests.ps1" />
+    <Compile Include="Script1.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
