@@ -55,7 +55,7 @@ function Connect-iDRAC
     write-Verbose "Generating Login Token"
     $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port/redfish/v1" # :$iDRAC_Port"
     $Global:iDRAC_Credentials = $Credentials
-    Write-Verbose $idracbaseurl
+    Write-Verbose $idrac_baseurl
     try
         {
         $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
