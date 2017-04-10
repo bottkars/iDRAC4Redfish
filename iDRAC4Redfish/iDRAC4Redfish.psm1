@@ -88,6 +88,7 @@ function Connect-iDRAC
 
 
 
+
 $ip = '192.168.197.114'
 
 $base_api_uri = "https://$($ip)"
