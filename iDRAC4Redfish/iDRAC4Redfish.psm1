@@ -13,7 +13,6 @@ function Unblock-Certs
 	    }
 "@
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object -TypeName TrustAllCertsPolicy
-
 }
 
 
@@ -40,7 +39,7 @@ function Connect-iDRAC
         {
         Unblock-Certs
         }
-	#[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
     }
     Process
     {
@@ -56,7 +55,7 @@ function Connect-iDRAC
     Write-Verbose $idrac_baseurl
     try
         {
-        $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
+        $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/odata" -Credential $credentials -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
 
         }
     catch [System.Net.WebException]
