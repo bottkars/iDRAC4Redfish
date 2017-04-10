@@ -50,12 +50,12 @@ function Connect-iDRAC
         $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
         }
     write-Verbose "Generating Login Token"
-    $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port/redfish/v1" # :$iDRAC_Port"
+    $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
     $Global:iDRAC_Credentials = $Credentials
     Write-Verbose $idrac_baseurl
     try
         {
-        $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/odata" -Credential $credentials -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
+        $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Credential $credentials -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
 
         }
     catch [System.Net.WebException]
@@ -76,7 +76,10 @@ function Connect-iDRAC
         #>
         Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
         Write-Host " we got the following Schemas: "
-        $Schemas
+        $clobal:IDRAC_Schemas = $Schemas
+		$Schemas
+
+
     }
     End
     {
@@ -89,7 +92,7 @@ function Connect-iDRAC
 
 function Get-iDRACManagerUri
 {
- $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri $Managers -Verbose -Credential $credentials).content | ConvertFrom-Json
+ $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri ($global:IDRACschemas | where name -Match Manager).URL -Verbose -Credential $credentials).content | ConvertFrom-Json
 
  $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
  Write-Host -ForegroundColor Green "==> Gota manager at $Global:iDRAC_Manager"
