@@ -142,11 +142,11 @@ function Get-iDRACSystemElement
     (
         [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
-        [ValidateSet('Processors','Storage/Controllers',' ')]
+        [ValidateSet('/Processors','/Storage/Controllers',' ')]
         $iDRAC_Element
     )
 $system_element = @()
-$members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_System/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+$members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_System$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
 foreach ($member in $members.members)
     {
     Write-Host -ForegroundColor Green "==> getting SystemElement $member"
