@@ -142,11 +142,11 @@ function Get-iDRACSystemElement
     (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
-        [ValidateSet('/Processors','/Storage/Controllers','/EthernetInterfaces')]
+        [ValidateSet('Processors','Storage/Controllers','EthernetInterfaces')]
         $iDRAC_Element
     )
 $system_element = @()
-$members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_System$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+$members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_System/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
 if ($members.members.count -gt 1)
     {
 	foreach ($member in $members.members)
