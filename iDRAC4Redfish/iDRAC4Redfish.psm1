@@ -160,6 +160,8 @@ else
     $system_element = $members[0]
     }
 
+if (!$iDRAC_Element)
+	{$iDRAC_Element = 'System'}
 $system_element.PSTypeNames.Insert(0, "$iDRAC_Element")
 Write-Output $system_element
 }
