@@ -188,7 +188,7 @@ $members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Ur
 if ($members.count -gt 1)
     {
 #$members
-    foreach ($member in $members)
+    foreach ($member in $members.member)
         {
         Write-Host -ForegroundColor Green "==> getting ChassisElement  $($member.'@odata.id')"
         $Chassis_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
