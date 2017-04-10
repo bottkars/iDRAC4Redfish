@@ -77,7 +77,7 @@ function Connect-iDRAC
         Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
         Write-Host " we got the following Schemas: "
         $Global:IDRAC_Schemas = $Schemas
-		$Schemas
+		#$Schemas
 		Get-iDRACManagerUri
 		Get-iDRACChassisUri
 		Get-iDRACSystemUri
