@@ -176,7 +176,7 @@ function Get-iDRACChassisElement
 [CmdletBinding(SupportsShouldProcess)]
     Param
     (
-        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
         [ValidateSet('Power','Thermal')]
         $iDRAC_Element
