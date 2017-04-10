@@ -209,6 +209,47 @@ else
 Write-Output $Chassis_element
 }
 
+
+
+function Get-iDRACManagerElement
+{
+[CmdletBinding(SupportsShouldProcess)]
+    Param
+    (
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
+        [Alias("Function")]
+        [ValidateSet('LogServices','NetworkPrototol')]
+        $iDRAC_Element
+    )
+$members = @()
+$Manager_element = @()
+
+$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_Manager/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+if ($members.count -gt 1)
+    {
+#$members
+    foreach ($member in $members.member)
+        {
+        Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
+        $Manager_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
+        }
+    }
+else
+    {
+    $Manager_element = $members[0]
+    }
+if ($iDRAC_Element) 
+	{
+	$Manager_element.PSTypeNames.Insert(0, "$iDRAC_Element")
+	}
+else
+	{
+	$Manager_element.PSTypeNames.Insert(0, "Manager")
+	}
+Write-Output $Manager_element
+}
+
+
 function Get-iDRACodata
 {
 [CmdletBinding(SupportsShouldProcess)]
