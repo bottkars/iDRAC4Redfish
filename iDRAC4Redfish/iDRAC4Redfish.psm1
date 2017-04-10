@@ -108,7 +108,7 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI"
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Verbose -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
-Write-Host -ForegroundColor Green "==> Got a manager at $Global:iDRAC_Manager"
+Write-Host -ForegroundColor Green "==> Got a System at $Global:iDRAC_System"
 }
 
 
@@ -118,7 +118,7 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI"
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Verbose -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')"
-Write-Host -ForegroundColor Green "==> Gota manager at $Global:iDRAC_Chassis"
+Write-Host -ForegroundColor Green "==> Gota Chassis at $Global:iDRAC_Chassis"
 }
 
 function Get-iDRACManagerElement
