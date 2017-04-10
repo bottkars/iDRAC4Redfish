@@ -19,7 +19,6 @@ function Unblock-Certs
 
 (Invoke-WebRequest -UseBasicParsing "$baseuri/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
 
-
 function Connect-iDRAC
 {
     [CmdletBinding()]
@@ -37,7 +36,6 @@ function Connect-iDRAC
                    Position=0)][pscredential]$Credentials,
         [switch]$trustCert
     )
-
     Begin
     {
     if ($trustCert.IsPresent)
@@ -55,8 +53,9 @@ function Connect-iDRAC
         $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
         }
     write-Verbose "Generating Login Token"
-    $Global:iDRACbaseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
-    Write-Verbose $SIObaseurl
+    $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port/redfish/v1" # :$iDRAC_Port"
+    $Global:iDRAC_Credentials = $Credentials
+    Write-Verbose $idracbaseurl
     try
         {
         $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRACbaseurl/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
@@ -67,6 +66,8 @@ function Connect-iDRAC
         # Write-Warning $_.Exception.Message
         #Get-SIOWebException -ExceptionMessage $_.Exception.Message
 		Write-Host "to be defined"
+        Write-Verbose $_
+        Write-Warning $_.Exception.Message
         Break
         }
     catch
@@ -76,12 +77,15 @@ function Connect-iDRAC
         break
         }
         #>
-        Write-Host "Successfully connected to iDRac with ipü $iDRAC_IP"
+        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
+        Write-Host " we got the following Schemas: "
+        $Schemas
     }
     End
     {
     }
 }
+
 
 
 $ip = '192.168.197.114'
