@@ -169,14 +169,14 @@ function Get-iDRACChassisElement
 $members = @()
 $Chassis_element = @()
 
-$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_Chassis/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_Chassis/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
 if ($members.count -gt 1)
     {
 #$members
     foreach ($member in $members)
         {
         Write-Host -ForegroundColor Green "==> getting ChassisElement  $($member.'@odata.id')"
-        $Chassis_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$base_api_uri$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
+        $Chassis_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
         }
     }
 else
@@ -202,7 +202,7 @@ begin
 process
 {
 Write-Host -ForegroundColor Green "==> getting elements for odata Link $odata"
-(invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$base_api_uri$($odata)" -Credential $Global:iDRAC_credentials -Method Get).content | ConvertFrom-Json
+(invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($odata)" -Credential $Global:iDRAC_credentials -Method Get).content | ConvertFrom-Json
 
 }
 end
