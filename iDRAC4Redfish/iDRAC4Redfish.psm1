@@ -228,7 +228,7 @@ $members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Ur
 if ($members.count -gt 1)
     {
 #$members
-    foreach ($member in $members.member)
+    foreach ($member in $members.members)
         {
         Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
         $Manager_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
