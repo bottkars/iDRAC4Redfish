@@ -92,7 +92,7 @@ function Connect-iDRAC
 
 function Get-iDRACManagerUri
 {
- $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl/"+($global:IDRAC_schemas | where name -Match Manager).URL -Verbose -Credential $credentials).content | ConvertFrom-Json
+ $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl/"($global:IDRAC_schemas | where name -Match Manager).URL -Verbose -Credential $credentials).content | ConvertFrom-Json
 
  $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
  Write-Host -ForegroundColor Green "==> Gota manager at $Global:iDRAC_Manager"
