@@ -76,7 +76,7 @@ function Connect-iDRAC
         #>
         Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
         Write-Host " we got the following Schemas: "
-        $clobal:IDRAC_Schemas = $Schemas
+        $Global:IDRAC_Schemas = $Schemas
 		$Schemas
 
 
