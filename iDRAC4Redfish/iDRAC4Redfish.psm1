@@ -225,7 +225,7 @@ $members = @()
 $Manager_element = @()
 
 $members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_Manager/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
-if ($members.count -gt 1)
+if ($members.members.count -gt 1)
     {
 #$members
     foreach ($member in $members.members)
