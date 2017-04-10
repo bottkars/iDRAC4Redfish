@@ -198,7 +198,14 @@ else
     {
     $Chassis_element = $members[0]
     }
-$Chassis_element.PSTypeNames.Insert(0, "$iDRAC_Element")
+if ($iDRAC_Element) 
+	{
+	$Chassis_element.PSTypeNames.Insert(0, "$iDRAC_Element")
+	}
+else
+	{
+	$Chassis_element.PSTypeNames.Insert(0, "Chassis")
+	}
 Write-Output $Chassis_element
 }
 
