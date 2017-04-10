@@ -58,7 +58,7 @@ function Connect-iDRAC
     Write-Verbose $idracbaseurl
     try
         {
-        $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRACbaseurl/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
+        $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
 
         }
     catch [System.Net.WebException]
