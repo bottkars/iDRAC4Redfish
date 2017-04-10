@@ -17,8 +17,6 @@ function Unblock-Certs
 }
 
 
-(Invoke-WebRequest -UseBasicParsing "$baseuri/odata" -Credential $credentials -ContentType 'Application/Json').content | ConvertFrom-Json | select -ExpandProperty value
-
 function Connect-iDRAC
 {
     [CmdletBinding()]
