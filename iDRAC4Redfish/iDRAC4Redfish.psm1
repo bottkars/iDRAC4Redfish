@@ -147,11 +147,19 @@ function Get-iDRACSystemElement
     )
 $system_element = @()
 $members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$Global:iDRAC_System$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
-foreach ($member in $members.members)
+if ($members.count -gt 1)
     {
-    Write-Host -ForegroundColor Green "==> getting SystemElement $member"
-    $system_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+	foreach ($member in $members.members)
+		{
+		Write-Host -ForegroundColor Green "==> getting SystemElement $member"
+		$system_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRACbaseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+		}
     }
+else
+    {
+    $system_element = $members[0]
+    }
+
 $system_element.PSTypeNames.Insert(0, "$iDRAC_Element")
 Write-Output $system_element
 }
