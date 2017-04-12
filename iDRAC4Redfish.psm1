@@ -245,30 +245,31 @@ $Chassis_element = @()
 foreach ($chassis in $Global:iDRAC_Chassis)
 	{
 	Write-Verbose $chassis
-	$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$chassis/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
-	}
-if ($members.count -gt 1)
-    {
-#$members
-    foreach ($member in $members.member)
-        {
-        Write-Host -ForegroundColor Green "==> getting ChassisElement  $($member.'@odata.id')"
-        $Chassis_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
-        }
-    }
-else
-    {
-    $Chassis_element = $members[0]
-    }
-if ($iDRAC_Element) 
-	{
-	$Chassis_element.PSTypeNames.Insert(0, "$iDRAC_Element")
-	}
-else
-	{
-	$Chassis_element.PSTypeNames.Insert(0, "Chassis")
-	}
+	$members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$chassis/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+
+	if ($members.count -gt 1)
+		{
+	#$members
+		foreach ($member in $members.member)
+			{
+			Write-Host -ForegroundColor Green "==> getting ChassisElement  $($member.'@odata.id')"
+			$Chassis_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
+			}
+		}
+	else
+		{
+		$Chassis_element = $members[0]
+		}
+	if ($iDRAC_Element) 
+		{
+		$Chassis_element.PSTypeNames.Insert(0, "$iDRAC_Element")
+		}
+	else
+		{
+		$Chassis_element.PSTypeNames.Insert(0, "Chassis")
+		}
 Write-Output $Chassis_element
+	}
 }
 function Get-iDRACManagerElement
 {
