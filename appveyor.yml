@@ -1,0 +1,8 @@
+version: 1.0.{build}
+nuget:
+  account_feed: true
+  project_feed: true
+build:
+  project: iDRAC4Redfish.sln
+  parallel: true
+  verbosity: minimal
