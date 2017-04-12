@@ -244,7 +244,8 @@ $members = @()
 $Chassis_element = @()
 foreach ($chassis in $Global:iDRAC_Chassis)
 	{
-	$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$Chassis/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+	Write-Verbose $chassis
+	$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$chassis/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
 	}
 if ($members.count -gt 1)
     {
