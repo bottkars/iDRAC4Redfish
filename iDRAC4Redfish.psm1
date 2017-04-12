@@ -179,7 +179,8 @@ function Get-iDRACChassisUri
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
-$Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" | Select-Object -Last 1
+$Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
+$Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
 }
 function Get-iDRACManagerElement
@@ -205,7 +206,10 @@ function Get-iDRACSystemElement
         $iDRAC_Element
     )
 $system_element = @()
-$members = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$Global:iDRAC_System/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+foreach ($chassis in $Global:iDRAC_Chassis)
+	{
+	$members += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$Global:iDRAC_System/$iDRAC_Element" -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
+	}
 if ($members.members.count -gt 1)
     {
 	foreach ($member in $members.members)
