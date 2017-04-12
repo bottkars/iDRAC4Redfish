@@ -15,6 +15,78 @@ function Unblock-Certs
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object -TypeName TrustAllCertsPolicy
 }
 
+function Connect-iDRACSession
+{
+    [CmdletBinding()]
+    [OutputType([int])]
+    Param
+    (
+        # Param1 help description
+        [Parameter(Mandatory=$true,
+                   ValueFromPipelineByPropertyName=$true,
+                   Position=0)]
+        $iDRAC_IP = "192.168.2.193",
+        $iDRAC_Port = 443,
+        [Parameter(Mandatory=$false,
+                   ValueFromPipeline=$true,
+                   Position=0)][pscredential]$Credentials,
+        [switch]$trustCert
+    )
+    Begin
+    {
+    if ($trustCert.IsPresent)
+        {
+        Unblock-Certs
+        }
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
+    }
+    Process
+    {
+    if (!$Credentials)
+        {
+        $User = Read-Host -Prompt "Please Enter iDRAC username"
+        $SecurePassword = Read-Host -Prompt "Enter iDRAC Password for user $user" -AsSecureString
+        $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
+        }
+    write-Verbose "Generating Login Token"
+    $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
+    $Global:iDRAC_Credentials = $Credentials
+    Write-Verbose $idrac_baseurl
+    try
+        {
+        $Tokens = Invoke-RestMethod -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Credential $credentials -ContentType 'Application/Json' -Method Post # ).content | ConvertFrom-Json | select -ExpandProperty value
+
+        }
+    catch [System.Net.WebException]
+        {
+        # Write-Warning $_.Exception.Message
+        #Get-SIOWebException -ExceptionMessage $_.Exception.Message
+		Write-Host "to be defined"
+        Write-Verbose $_
+        Write-Warning $_.Exception.Message
+        Break
+        }
+    catch
+        {
+        Write-Verbose $_
+        Write-Warning $_.Exception.Message
+        break
+        }
+        #>
+        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
+        Write-Host " we got the following Schemas: "
+        $Global:IDRAC_Schemas = $Schemas
+		#$Schemas
+		Get-iDRACManagerUri
+		Get-iDRACChassisUri
+		Get-iDRACSystemUri
+
+    }
+    End
+    {
+    }
+}
+functi
 
 function Connect-iDRAC
 {
@@ -87,11 +159,6 @@ function Connect-iDRAC
     {
     }
 }
-
-
-
-
-
 function Get-iDRACManagerUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
@@ -100,8 +167,6 @@ $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Manager"
 } 
-
-
 function Get-iDRACSystemUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
@@ -110,8 +175,6 @@ $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_System"
 }
-
-
 function Get-iDRACChassisUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
@@ -120,7 +183,6 @@ $outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
 }
-
 function Get-iDRACManagerElement
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -133,8 +195,6 @@ function Get-iDRACManagerElement
 (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_Manager/$iDRAC_Element" -Verbose -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
 
 }
-
-
 function Get-iDRACSystemElement
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -170,7 +230,6 @@ else
 	}
 Write-Output $system_element
 }
-
 function Get-iDRACChassisElement
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -208,9 +267,6 @@ else
 	}
 Write-Output $Chassis_element
 }
-
-
-
 function Get-iDRACManagerElement
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -248,8 +304,6 @@ else
 	}
 Write-Output $Manager_element
 }
-
-
 function Get-iDRACodata
 {
 [CmdletBinding(SupportsShouldProcess)]
