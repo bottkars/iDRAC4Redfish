@@ -108,10 +108,12 @@ function Invoke-iDRACRequest
 
 if ($Global:IDRAC_Headers)
 	{
+	Write-Verbose "Calling $uri with $Global:IDRAC_Headers"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $GLOBAL:iDRAC_Headers
 	}
 else
 	{
+	Write-Verbose "Calling $uri with $($Global:iDRAC_Credentials.Username)"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials
 	}
 Write-Output $Result
@@ -192,15 +194,7 @@ function Get-iDRACManagerUri
 
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-if ($Global:IDRAC_Headers)
-	{
-	Write-Verbose "Doing Session Based request"
-	$outputobject = (Invoke-iDRACRequest  -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
-	}
-else
-	{
-	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
-	}
+$outputobject = (Invoke-iDRACRequest  -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Manager"
 } 
