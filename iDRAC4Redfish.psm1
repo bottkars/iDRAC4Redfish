@@ -108,12 +108,12 @@ function Invoke-iDRACRequest
 
 if ($Global:IDRAC_Headers)
 	{
-	Write-Verbose "Calling $uri with $Global:IDRAC_Headers"
+	Write-Host -ForegroundColor Green "==> Calling $uri with $Global:iDRAC_Session"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $GLOBAL:iDRAC_Headers
 	}
 else
 	{
-	Write-Verbose "Calling $uri with $($Global:iDRAC_Credentials.Username)"
+	Write-Host -ForegroundColor Green "==> Calling $uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials
 	}
 Write-Output $Result
@@ -202,15 +202,7 @@ function Get-iDRACSystemUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-if ($Global:IDRAC_Headers)
-	{
-	Write-Verbose "Doing Session Based request"
-	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
-	}
-else
-	{
-	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
-	}
+$outputobject = (Invoke-iDRACRequest -Uri "$global:IDRAC_baseurl$Schema" ).content | ConvertFrom-Json
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_System"
 }
@@ -218,15 +210,7 @@ function Get-iDRACChassisUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-if ($Global:IDRAC_Headers)
-	{
-	Write-Verbose "Doing Session Based request"
-	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
-	}
-else
-	{
-	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
-	}
+$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
