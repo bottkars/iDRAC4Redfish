@@ -343,7 +343,7 @@ function Get-iDRACManagerElement
 $members = @()
 $Manager_element = @()
 
-$members += (invoke-WebRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/$iDRAC_Element").content | ConvertFrom-Json
+$members += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/$iDRAC_Element").content | ConvertFrom-Json
 if ($members.members.count -gt 1)
     {
 #$members
