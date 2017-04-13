@@ -136,16 +136,8 @@ if ($Session_ID)
 	{
 	$Session_Uri = "/redfish/v1/Sessions/$Session_ID"
 	}
-if ($Global:iDRAC_Headers)
-	{
-	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
-	$Disconnect = Invoke-iDRACRequest -Uri $Idrac_Uri$Session_Uri -Method Delete
-	}
-else
-	{
-	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
-	$Disconnect =Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Credential $Global:iDRAC_Credentials
-	}
+Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
+$Disconnect = Invoke-iDRACRequest -Uri $Global:iDRAC_baseurl$Session_Uri -Method Delete
 Write-Host ($Disconnect.Content | ConvertFrom-Json).'@Message.ExtendedInfo'.Message
 }
 
