@@ -94,6 +94,28 @@ function New-iDRACSession
     {
     }
 }
+function Invoke-iDRACRequest
+{
+    [CmdletBinding()]
+    [OutputType([int])]
+    Param
+    (
+        # Param1 help description
+        [Parameter(Mandatory=$true)]$uri,
+		[Parameter(Mandatory=$false)]$Method = 'Get'
+
+	)
+
+if ($Global:IDRAC_Headers)
+	{
+	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $GLOBAL:iDRAC_Headers
+	}
+else
+	{
+	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials
+	}
+Write-Output $Result
+}
 
 function Connect-iDRAC
 {
@@ -173,7 +195,7 @@ $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
 if ($Global:IDRAC_Headers)
 	{
 	Write-Verbose "Doing Session Based request"
-	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
+	$outputobject = (Invoke-iDRACRequest  -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
 	}
 else
 	{
@@ -227,6 +249,8 @@ function Get-iDRACManagerElement
 (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/$iDRAC_Element" -Verbose -Credential $Global:iDRAC_credentials).content | ConvertFrom-Json
 
 }
+
+
 function Get-iDRACSystemElement
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -285,7 +309,7 @@ foreach ($chassis in $Global:iDRAC_Chassis)
 		foreach ($member in $members.member)
 			{
 			Write-Host -ForegroundColor Green "==> getting ChassisElement  $($member.'@odata.id')"
-			$Chassis_element += (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
+			$Chassis_element += (Invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')" -Credential $Global:iDRAC_credentials -Verbose).content | ConvertFrom-Json
 			}
 		}
 	else
