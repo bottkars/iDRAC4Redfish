@@ -400,7 +400,7 @@ else
 
 
 # $members.PSTypeNames.Insert(0, "LifecycleLogs")#>
-Write-Output $members
+Write-Output $members.members
 }
 function Get-iDRACodata
 {
