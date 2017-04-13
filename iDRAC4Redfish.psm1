@@ -15,7 +15,7 @@ function Unblock-Certs
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object -TypeName TrustAllCertsPolicy
 }
 
-function Connect-iDRACSession
+function New-iDRACSession
 {
     [CmdletBinding()]
     [OutputType([int])]
@@ -54,8 +54,8 @@ function Connect-iDRACSession
     Write-Verbose $idrac_baseurl
     try
         {
-        $Tokens = Invoke-RestMethod -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Credential $credentials -ContentType 'Application/Json' -Method Post # ).content | ConvertFrom-Json | select -ExpandProperty value
-
+		#Invoke-RestMethod -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body '{"username" : "redfish", "password" : "redfish"}' -ContentType application/json
+		$token = Invoke-WebRequest -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body '{"username" : "redfish", "password" : "redfish"}' -ContentType application/json -UseBasicParsing
         }
     catch [System.Net.WebException]
         {
@@ -73,8 +73,12 @@ function Connect-iDRACSession
         break
         }
         #>
-        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
+		$GLOBAL:iDRAC_XAUTH = $token.Headers.'X-Auth-Token'
+		$GLOBAL:iDRAC_SESION_ID = ($token.Content | ConvertFrom-Json).id
+		$GLOBAL:iDRAC_SESION_URI = $token.Headers.Location
+        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP and Session ID $iDRAC_SESION_ID"
         Write-Host " we got the following Schemas: "
+		$GLOBAL:iDRAC_Headers = @('X-Auth-Token' , $iDRAC_XAUTH) | ConvertTo-Json
         #$Global:IDRAC_Schemas = $Schemas
 		#$Schemas
 		#Get-iDRACManagerUri
