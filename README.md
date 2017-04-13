@@ -36,7 +36,7 @@ Get-iDRACSystemElement
 This lists all entities of the System Object:
 ![image](https://cloud.githubusercontent.com/assets/8255007/24998676/3e90086c-203b-11e7-895c-fa0863d08ca4.png)
 
-To get more detail on System Elements, you may Specify the Elements by -iDRAC_Element:
+To get more details on System Elements, you may Specify the Elements by -iDRAC_Element:
 ```Powershell
 Get-iDRACSystemElement -iDRAC_Element Storage/Controllers
 ```  
