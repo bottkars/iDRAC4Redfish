@@ -431,7 +431,7 @@ function Get-iDRACSessions
 {
 
 $Sessions = @()
-
+$iDRAC_Sessions = @()
 $Sessions = ((Invoke-iDRACRequest -uri $iDRAC_baseurl/redfish/v1/Sessions).Content | ConvertFrom-Json).members
 
 foreach ($session in $Sessions)
