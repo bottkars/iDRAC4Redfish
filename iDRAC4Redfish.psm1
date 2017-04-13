@@ -386,12 +386,10 @@ $members += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manage
 
 if ($members.members.count -gt 1)
     {
-#$members
-    foreach ($member in $members.members)
-        {
         Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
-        $Manager_element += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
-        }
+        $Manager_element = Members.Content | ConvertFrom-Json | select -ExpandProperty Members
+		# += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
+
     }
 else
     {
