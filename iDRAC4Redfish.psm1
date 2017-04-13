@@ -122,10 +122,9 @@ Write-Output $Result
 }
 function Disconnect-iDRACSession
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='ByUri')]
     [OutputType([int])]
-	[DefaultParameterSet('ByUri')]
-    Param
+	Param
     (
     [Parameter(Mandatory=$false,ParameterSetName = "ByUri")]$Session_Uri = $Global:iDRAC_Session_URI,
     [Parameter(Mandatory=$false,ParameterSetName = "ByID")]$Session_ID
