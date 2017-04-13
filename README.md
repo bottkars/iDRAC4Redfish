@@ -50,4 +50,12 @@ Get-iDRACSystemElement -iDRAC_Element Storage/Controllers | Select-Object -Expan
 
 ![image](https://cloud.githubusercontent.com/assets/8255007/24998900/eccf2296-203b-11e7-929b-f166fc9afc35.png)
 
+# Session Management
+To get a list of iDRAC Sessions, use
+```Powershell
+Get-iDRACSessions
+```
+![image](https://cloud.githubusercontent.com/assets/8255007/25011629/515984c2-206e-11e7-9c2d-b29971adb9c7.png)
+
+
 @azurestack_guy. April 2017
