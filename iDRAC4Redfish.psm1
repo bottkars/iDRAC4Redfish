@@ -103,7 +103,7 @@ function Invoke-iDRACRequest
     (
         # Param1 help description
         [Parameter(Mandatory=$true)]$uri,
-		[Parameter(Mandatory=$false)]$Method = 'Get',
+		[Parameter(Mandatory=$false)][ValidateSet('Get','Delete','Put','Post','Patch')]$Method = 'Get',
 		[Parameter(Mandatory=$false)]$ContentType = 'application/json;charset=utf-8' 
 
 	)
@@ -126,15 +126,20 @@ function Disconnect-iDRACSession
     [OutputType([int])]
     Param
     (
-    [Parameter(Mandatory=$false)]$Session_Uri = $Global:iDRAC_Session_URI,
-	[Parameter(Mandatory=$false)]$Idrac_Uri = $Global:iDRAC_baseurl
+    [Parameter(Mandatory=$false,ParameterSetName = "ByUri")]$Session_Uri = $Global:iDRAC_Session_URI,
+    [Parameter(Mandatory=$false,ParameterSetName = "ByID")]$Session_ID
 
+	#[Parameter(Mandatory=$false)]$Idrac_Uri = $Global:iDRAC_baseurl
 	)
 
+if ($Session_ID)
+	{
+	$Session_Uri = "/redfish/v1/Sessions/$Session_ID"
+	}
 if ($Global:iDRAC_Headers)
 	{
 	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
-	$Disconnect = Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Headers $Global:iDRAC_Headers
+	$Disconnect = Invoke-iDRACRequest -Uri $Idrac_Uri$Session_Uri -Method Delete
 	}
 else
 	{
