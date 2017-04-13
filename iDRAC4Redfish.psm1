@@ -383,7 +383,7 @@ $members = @()
 $Manager_element = @()
 
 $members += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/Logs/Lclog").content | ConvertFrom-Json
-<#
+
 if ($members.members.count -gt 1)
     {
 #$members
@@ -397,17 +397,12 @@ else
     {
     $Manager_element = $members[0]
     }
-if ($iDRAC_Element) 
-	{
-	$Manager_element.PSTypeNames.Insert(0, "$iDRAC_Element")
-	}
-else
-	{
-	$Manager_element.PSTypeNames.Insert(0, "Manager")
-	}
-#>
-$members.PSTypeNames.Insert(0, "LifecycleLogs")
-Write-Output $members
+
+	$Manager_element.PSTypeNames.Insert(0, "LifecycleLogs")
+
+
+# $members.PSTypeNames.Insert(0, "LifecycleLogs")
+Write-Output $Manager_element
 }
 function Get-iDRACodata
 {
