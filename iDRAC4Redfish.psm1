@@ -436,6 +436,8 @@ $Sessions = ((Invoke-iDRACRequest -uri $iDRAC_baseurl/redfish/v1/Sessions).Conte
 
 foreach ($session in $Sessions)
 	{
-	(Invoke-iDRACRequest -uri $iDRAC_baseurl$($session.'@odata.id')).content | ConvertFrom-Json
+	$iDRAC_Sessions += (Invoke-iDRACRequest -uri $iDRAC_baseurl$($session.'@odata.id')).content | ConvertFrom-Json
 	}
+$iDRAC_Sessions.PSTypeNames.Insert(0, "iDRACSessions")
+Write-Output $iDRAC_Sessions
 }
