@@ -57,5 +57,17 @@ Get-iDRACSessions
 ```
 ![image](https://cloud.githubusercontent.com/assets/8255007/25011629/515984c2-206e-11e7-9c2d-b29971adb9c7.png)
 
+to Disconnect a specific Session
+
+```Powershell
+Disconnect-iDRACSession -Session_ID 82
+```
+![image](https://cloud.githubusercontent.com/assets/8255007/25011729/aa453572-206e-11e7-9555-557966f4a722.png)
+
+To diconnect the current session
+
+```Powershell
+Disconnect-iDRACSession
+```
 
 @azurestack_guy. April 2017
