@@ -108,7 +108,7 @@ function Invoke-iDRACRequest
 
 if ($Global:IDRAC_Headers)
 	{
-	Write-Host -ForegroundColor Green "==> Calling $uri with $Global:iDRAC_Session"
+	Write-Host -ForegroundColor Green "==> Calling $uri with Session $GLOBAL:iDRAC_Session_ID"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $GLOBAL:iDRAC_Headers
 	}
 else
