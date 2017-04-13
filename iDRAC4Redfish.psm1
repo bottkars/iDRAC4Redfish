@@ -132,13 +132,14 @@ function Disconnect-iDRACSession
 if ($Global:iDRAC_Headers)
 	{
 	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
-	Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Headers $Global:iDRAC_Headers
+	$Disconnect = Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Headers $Global:iDRAC_Headers
 	}
 else
 	{
 	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
-	Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Credential $Global:iDRAC_Credentials
+	$Disconnect =Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Credential $Global:iDRAC_Credentials
 	}
+Write-Host ($Disconnect.Content | ConvertFrom-Json).'@Message.ExtendedInfo'.Message
 }
 
 function Connect-iDRAC
