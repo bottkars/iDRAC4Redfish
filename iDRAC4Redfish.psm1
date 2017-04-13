@@ -80,8 +80,10 @@ function New-iDRACSession
 		$GLOBAL:iDRAC_SESION_URI = $token.Headers.Location
         Write-Host "Successfully connected to iDRac with IP $iDRAC_IP and Session ID $iDRAC_SESION_ID"
         Write-Host " we got the following Schemas: "
-		$GLOBAL:iDRAC_Headers = @('X-Auth-Token' , $iDRAC_XAUTH) | ConvertTo-Json
-        #$Global:IDRAC_Schemas = $Schemas
+		$GLOBAL:iDRAC_Headers = @{'X-Auth-Token' = $iDRAC_XAUTH} | ConvertTo-Json -Compress
+        $Global:IDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $GLOBAL:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
+
+		#$Global:IDRAC_Schemas = $Schemas
 		#$Schemas
 		#Get-iDRACManagerUri
 		# Get-iDRACChassisUri
@@ -133,7 +135,6 @@ function Connect-iDRAC
     try
         {
         $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Credential $credentials -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
-
         }
     catch [System.Net.WebException]
         {
