@@ -51,7 +51,7 @@ function New-iDRACSession
     write-Verbose "Generating Login Token"
     $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
     $Global:iDRAC_Credentials = $Credentials
-    Write-Verbose $idrac_baseurl
+    Write-Verbose $iDRAC_baseurl
     try
         {
 		$Body = @{'UserName'= $($Credentials.UserName);'Password'= $($Credentials.GetNetworkCredential().Password)} |ConvertTo-Json -Compress
@@ -75,15 +75,15 @@ function New-iDRACSession
         break
         }
         #>
-		$GLOBAL:iDRAC_XAUTH = $token.Headers.'X-Auth-Token'
-		$GLOBAL:iDRAC_Session_ID = ($token.Content | ConvertFrom-Json).id
-		$GLOBAL:iDRAC_Session_URI = $token.Headers.Location
-        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP and Session ID $iDRAC_Session_ID"
+		$Global:iDRAC_XAUTH = $token.Headers.'X-Auth-Token'
+		$Global:iDRAC_Session_ID = ($token.Content | ConvertFrom-Json).id
+		$Global:iDRAC_Session_URI = $token.Headers.Location
+        Write-Host "Successfully connected to iDRAC with IP $iDRAC_IP and Session ID $iDRAC_Session_ID"
         Write-Host " we got the following Schemas: "
-		$GLOBAL:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
-        $Global:IDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $GLOBAL:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
+		$Global:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
+        $Global:iDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $Global:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
 
-		$Global:IDRAC_Schemas 
+		$Global:iDRAC_Schemas 
 		#$Schemas
 		Get-iDRACManagerUri
 		Get-iDRACChassisUri
@@ -106,10 +106,10 @@ function Invoke-iDRACRequest
 
 	)
 
-if ($Global:IDRAC_Headers)
+if ($Global:iDRAC_Headers)
 	{
-	Write-Host -ForegroundColor Green "==> Calling $uri with Session $GLOBAL:iDRAC_Session_ID"
-	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $GLOBAL:iDRAC_Headers
+	Write-Host -ForegroundColor Green "==> Calling $uri with Session $Global:iDRAC_Session_ID"
+	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers
 	}
 else
 	{
@@ -117,6 +117,26 @@ else
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials
 	}
 Write-Output $Result
+}
+function Invoke-DeleteiDRACSession
+{
+    [CmdletBinding()]
+    [OutputType([int])]
+    Param
+    (
+    [Parameter(Mandatory=$false)]$Session_Uri = $Global:iDRAC_Session_URI
+	)
+
+if ($Global:iDRAC_Headers)
+	{
+	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
+	Invoke-WebRequest -UseBasicParsing -Uri $Session_Uri -Method Delete -Headers $Global:iDRAC_Headers
+	}
+else
+	{
+	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
+	Invoke-WebRequest -UseBasicParsing -Uri $Session_Uri -Method Delete -Credential $Global:iDRAC_Credentials
+	}
 }
 
 function Connect-iDRAC
@@ -155,7 +175,7 @@ function Connect-iDRAC
     write-Verbose "Generating Login Token"
     $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
     $Global:iDRAC_Credentials = $Credentials
-    Write-Verbose $idrac_baseurl
+    Write-Verbose $iDRAC_baseurl
     try
         {
         $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Credential $credentials -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
@@ -176,9 +196,9 @@ function Connect-iDRAC
         break
         }
         #>
-        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP"
+        Write-Host "Successfully connected to iDRAC with IP $iDRAC_IP"
         Write-Host " we got the following Schemas: "
-        $Global:IDRAC_Schemas = $Schemas
+        $Global:iDRAC_Schemas = $Schemas
 		#$Schemas
 		Get-iDRACManagerUri
 		Get-iDRACChassisUri
@@ -193,24 +213,24 @@ function Get-iDRACManagerUri
 {
 
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
-$Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (Invoke-iDRACRequest  -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
+$Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
+$outputobject = (Invoke-iDRACRequest  -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Manager"
 } 
 function Get-iDRACSystemUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
-$Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (Invoke-iDRACRequest -Uri "$global:IDRAC_baseurl$Schema" ).content | ConvertFrom-Json
+$Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
+$outputobject = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Schema" ).content | ConvertFrom-Json
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_System"
 }
 function Get-iDRACChassisUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
-$Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
+$Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
+$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:iDRAC_Headers -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
