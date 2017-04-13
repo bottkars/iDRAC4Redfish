@@ -367,6 +367,48 @@ else
 	}
 Write-Output $Manager_element
 }
+
+
+function Get-iDRACLifecycleLog
+{
+[CmdletBinding(SupportsShouldProcess)]
+    Param
+    (
+        #[Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
+        #[Alias("Function")]
+        #[ValidateSet('LogServices','NetworkProtocol')]
+        #$iDRAC_Element
+    )
+$members = @()
+$Manager_element = @()
+
+$members += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/Logs/Lclog").content | ConvertFrom-Json
+<#
+if ($members.members.count -gt 1)
+    {
+#$members
+    foreach ($member in $members.members)
+        {
+        Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
+        $Manager_element += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
+        }
+    }
+else
+    {
+    $Manager_element = $members[0]
+    }
+if ($iDRAC_Element) 
+	{
+	$Manager_element.PSTypeNames.Insert(0, "$iDRAC_Element")
+	}
+else
+	{
+	$Manager_element.PSTypeNames.Insert(0, "Manager")
+	}
+#>
+$members.PSTypeNames.Insert(0, "LifecycleLogs")
+Write-Output $members
+}
 function Get-iDRACodata
 {
 [CmdletBinding(SupportsShouldProcess)]
