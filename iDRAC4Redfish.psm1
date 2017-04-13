@@ -427,7 +427,7 @@ end
 
 
 
-Get-iDRACSessions
+function Get-iDRACSessions
 {
 
 $Sessions = @()
