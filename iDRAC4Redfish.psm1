@@ -118,7 +118,7 @@ else
 	}
 Write-Output $Result
 }
-function Invoke-DeleteiDRACSession
+function Delete-iDRACSession
 {
     [CmdletBinding()]
     [OutputType([int])]
