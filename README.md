@@ -69,5 +69,6 @@ To diconnect the current session
 ```Powershell
 Disconnect-iDRACSession
 ```
+![image](https://cloud.githubusercontent.com/assets/8255007/25012052/94c2261e-206f-11e7-8b18-fe0705e23840.png)
 
 @azurestack_guy. April 2017
