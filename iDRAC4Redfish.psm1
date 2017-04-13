@@ -110,12 +110,12 @@ function Invoke-iDRACRequest
 
 if ($Global:iDRAC_Headers)
 	{
-	Write-Host -ForegroundColor Green "==> Calling $uri with Session $Global:iDRAC_Session_ID"
+	Write-Host -ForegroundColor White "==> Calling $uri with Session $Global:iDRAC_Session_ID"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType
 	}
 else
 	{
-	Write-Host -ForegroundColor Green "==> Calling $uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
+	Write-Host -ForegroundColor White "==> Calling $uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
 	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials -ContentType $ContentType
 	}
 Write-Output $Result
@@ -221,7 +221,7 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI"
 $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest  -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
-Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Manager"
+Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_Manager"
 } 
 function Get-iDRACSystemUri
 {
@@ -229,7 +229,7 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI"
 $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Schema" ).content | ConvertFrom-Json
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
-Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_System"
+Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_System"
 }
 function Get-iDRACChassisUri
 {
@@ -238,7 +238,7 @@ $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
-Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
+Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_Chassis"
 }
 function Get-iDRACManagerElement
 {
