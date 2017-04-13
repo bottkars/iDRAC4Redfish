@@ -54,8 +54,8 @@ function New-iDRACSession
     Write-Verbose $idrac_baseurl
     try
         {
-		#Invoke-RestMethod -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body '{"username" : "redfish", "password" : "redfish"}' -ContentType application/json
-		$token = Invoke-WebRequest -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body '{"username" : "redfish", "password" : "redfish"}' -ContentType application/json -UseBasicParsing
+		$Json_Body = @('UserName',$Credentials.UserName;'Password', $Credentials.GetNetworkCredential().Password) |ConvertTo-Json
+		$token = Invoke-WebRequest -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body $Json_Body -ContentType 'application/json' -UseBasicParsing
         }
     catch [System.Net.WebException]
         {
