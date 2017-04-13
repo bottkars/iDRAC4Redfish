@@ -76,16 +76,16 @@ function New-iDRACSession
         }
         #>
 		$GLOBAL:iDRAC_XAUTH = $token.Headers.'X-Auth-Token'
-		$GLOBAL:iDRAC_SESION_ID = ($token.Content | ConvertFrom-Json).id
-		$GLOBAL:iDRAC_SESION_URI = $token.Headers.Location
-        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP and Session ID $iDRAC_SESION_ID"
+		$GLOBAL:iDRAC_Session_ID = ($token.Content | ConvertFrom-Json).id
+		$GLOBAL:iDRAC_Session_URI = $token.Headers.Location
+        Write-Host "Successfully connected to iDRac with IP $iDRAC_IP and Session ID $iDRAC_Session_ID"
         Write-Host " we got the following Schemas: "
 		$GLOBAL:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
         $Global:IDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $GLOBAL:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
 
-		#$Global:IDRAC_Schemas = $Schemas
+		$Global:IDRAC_Schemas 
 		#$Schemas
-		#Get-iDRACManagerUri
+		Get-iDRACManagerUri
 		# Get-iDRACChassisUri
 		#Get-iDRACSystemUri
 
@@ -167,9 +167,18 @@ function Connect-iDRAC
 }
 function Get-iDRACManagerUri
 {
+
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
+if ($Global:IDRAC_Headers)
+	{
+	Write-Verbose "Doing Session Based request"
+	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
+	}
+else
+	{
+	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
+	}
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Manager"
 } 
