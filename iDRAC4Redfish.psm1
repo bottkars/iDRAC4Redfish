@@ -387,7 +387,7 @@ $members += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manage
 if ($members.members.count -gt 1)
     {
         Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
-        $Manager_element = Members.Content | ConvertFrom-Json | select -ExpandProperty Members
+        $Manager_element = $Members.Content | ConvertFrom-Json | select -ExpandProperty Members
 		# += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
 
     }
