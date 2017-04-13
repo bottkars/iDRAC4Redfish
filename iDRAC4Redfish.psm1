@@ -235,7 +235,7 @@ function Get-iDRACChassisUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:iDRAC_Headers -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
+$outputobject = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
