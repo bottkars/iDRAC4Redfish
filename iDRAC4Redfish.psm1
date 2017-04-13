@@ -55,6 +55,7 @@ function New-iDRACSession
     try
         {
 		$Body = "{'UserName':$($Credentials.UserName);'Password':$($Credentials.GetNetworkCredential().Password))}"# |ConvertTo-Json
+		Write-Verbose $Body
 		$token = Invoke-WebRequest -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body $Body -ContentType 'application/json' -UseBasicParsing
        
 		 }
