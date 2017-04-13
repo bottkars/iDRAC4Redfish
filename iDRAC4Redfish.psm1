@@ -86,8 +86,8 @@ function New-iDRACSession
 		$Global:IDRAC_Schemas 
 		#$Schemas
 		Get-iDRACManagerUri
-		# Get-iDRACChassisUri
-		#Get-iDRACSystemUri
+		Get-iDRACChassisUri
+		Get-iDRACSystemUri
 
     }
     End
@@ -186,7 +186,15 @@ function Get-iDRACSystemUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
+if ($Global:IDRAC_Headers)
+	{
+	Write-Verbose "Doing Session Based request"
+	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
+	}
+else
+	{
+	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
+	}
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_System"
 }
@@ -194,7 +202,15 @@ function Get-iDRACChassisUri
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI" 
 $Schema = ($global:IDRAC_schemas | where name -Match $Myself).URL
-$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
+if ($Global:IDRAC_Headers)
+	{
+	Write-Verbose "Doing Session Based request"
+	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8'  -Headers $Global:IDRAC_Headers -Uri "$global:IDRAC_baseurl$Schema").content | ConvertFrom-Json
+	}
+else
+	{
+	$outputobject = (invoke-WebRequest -ContentType 'application/json;charset=utf-8' -Uri "$global:IDRAC_baseurl$Schema" -Credential $GLobal:idrac_credentials).content | ConvertFrom-Json
+	}
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Host -ForegroundColor Green "==> Got $Myself URI $Global:iDRAC_Chassis"
