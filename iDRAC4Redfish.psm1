@@ -118,24 +118,26 @@ else
 	}
 Write-Output $Result
 }
-function Delete-iDRACSession
+function Disconnect-iDRACSession
 {
     [CmdletBinding()]
     [OutputType([int])]
     Param
     (
-    [Parameter(Mandatory=$false)]$Session_Uri = $Global:iDRAC_Session_URI
+    [Parameter(Mandatory=$false)]$Session_Uri = $Global:iDRAC_Session_URI,
+	[Parameter(Mandatory=$false)]$Idrac_Uri = $Global:iDRAC_baseurl
+
 	)
 
 if ($Global:iDRAC_Headers)
 	{
 	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
-	Invoke-WebRequest -UseBasicParsing -Uri $Session_Uri -Method Delete -Headers $Global:iDRAC_Headers
+	Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Headers $Global:iDRAC_Headers
 	}
 else
 	{
 	Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
-	Invoke-WebRequest -UseBasicParsing -Uri $Session_Uri -Method Delete -Credential $Global:iDRAC_Credentials
+	Invoke-WebRequest -UseBasicParsing -Uri $Idrac_Uri$Session_Uri -Method Delete -Credential $Global:iDRAC_Credentials
 	}
 }
 
