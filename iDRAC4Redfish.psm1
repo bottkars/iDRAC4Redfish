@@ -485,7 +485,7 @@ $JsonBody = @{ ExportFormat ="XML"
     IPAddress=$Cifs_IP
     ShareName=$Cifs_Sharename
     ShareType="CIFS"
-    UserName=$User
+    UserName=$Credentials.UserName
     Password=$Credentials.GetNetworkCredential().Password
     FileName="R730_SCP.xml"}} | ConvertTo-Json
 $JsonBody
