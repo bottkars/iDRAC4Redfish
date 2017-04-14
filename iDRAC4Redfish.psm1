@@ -467,7 +467,12 @@ param(
                    ValueFromPipeline=$true)]$Cifs_Sharename = "dscfra",
 #$ShareType = "CIFS"
 		[Parameter(Mandatory=$false,
-                   ValueFromPipeline=$true)]$Filename = "SCP_XML.xml"
+                   ValueFromPipeline=$true)]$Filename = "SCP_XML.xml",
+		[Parameter(Mandatory=$false,
+                   ValueFromPipeline=$true)][switch]$waitcomplete
+
+
+
 
 )
 $Target_Uri = $Global:iDRAC_OEM.'OemManager.v1_0_0#OemManager.ExportSystemConfiguration'.Target
@@ -490,6 +495,16 @@ $JsonBody = @{ ExportFormat ="XML"
     FileName="R730_SCP.xml"}} | ConvertTo-Json
 #$JsonBody
 $result = Invoke-iDRACRequest -uri "$iDRAC_baseurl$Target_Uri" -Method Post -Body $JsonBody -ContentType 'Application/json'
-Write-Host "You can Monitor the Task by 'Get-iDRACodata -odata $($result.Headers.location)'"
-Write-Output $result
+
+#Write-Host "You can Monitor the Task by 'Get-iDRACodata -odata $($result.Headers.location)'"
+if ($waitcomplete.IsPresent)
+	{
+	Write-Host "Waiting for $($result.Headers.location) to complete"
+	do {sleep 5} until (	(Get-iDRACodata -odata $($result.Headers.location)).TaskState -eq 'Completed')
+	}
+else
+	{
+	Write-Output $($result.Headers.location)
+	}
+
 }
