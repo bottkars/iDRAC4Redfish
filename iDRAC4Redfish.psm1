@@ -28,8 +28,7 @@ function New-iDRACSession
         $iDRAC_IP = "192.168.2.193",
         $iDRAC_Port = 443,
         [Parameter(Mandatory=$false,
-                   ValueFromPipeline=$true,
-                   Position=0)][pscredential]$Credentials,
+                   ValueFromPipeline=$true)][pscredential]$Credentials,
         [switch]$trustCert
     )
     Begin
@@ -104,19 +103,34 @@ function Invoke-iDRACRequest
         # Param1 help description
         [Parameter(Mandatory=$true)]$uri,
 		[Parameter(Mandatory=$false)][ValidateSet('Get','Delete','Put','Post','Patch')]$Method = 'Get',
-		[Parameter(Mandatory=$false)]$ContentType = 'application/json;charset=utf-8' 
+		[Parameter(Mandatory=$false)]$ContentType = 'application/json;charset=utf-8', 
+		[Parameter(Mandatory=$false)]$Body
 
 	)
 
 if ($Global:iDRAC_Headers)
 	{
 	Write-Host -ForegroundColor White "==> Calling $uri with Session $Global:iDRAC_Session_ID"
-	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType
+	if ($Body)
+		{
+		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType -Body $Body
+		}
+	else
+		{
+		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType
+		}
 	}
 else
 	{
 	Write-Host -ForegroundColor White "==> Calling $uri with Basic Auth for User $($Global:iDRAC_Credentials.Username)"
-	$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials -ContentType $ContentType
+	if ($Body)
+		{
+		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials -ContentType $ContentType -Body $Body
+		}
+	else
+		{
+		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Credential $Global:iDRAC_Credentials -ContentType $ContentType
+		}
 	}
 Write-Output $Result
 }
@@ -218,6 +232,7 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI"
 $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest  -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
+$Global:iDRAC_OEM = (Get-iDRACodata -odata $iDRAC_Manager).Actions.Oem
 Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_Manager"
 } 
 function Get-iDRACSystemUri
@@ -437,4 +452,42 @@ foreach ($session in $Sessions)
 	}
 $iDRAC_Sessions.PSTypeNames.Insert(0, "iDRACSessions")
 Write-Output $iDRAC_Sessions
+}
+
+
+function Copy-iDRACSCP
+{
+
+param( 
+		[Parameter(Mandatory=$false,
+                   ValueFromPipeline=$true)]$Cifs_IP = "172.21.1.103",
+        [Parameter(Mandatory=$false,
+                   ValueFromPipeline=$true)][pscredential]$Credentials,
+		[Parameter(Mandatory=$false,
+                   ValueFromPipeline=$true)]$Cifs_Sharename = "dscfra",
+#$ShareType = "CIFS"
+		[Parameter(Mandatory=$false,
+                   ValueFromPipeline=$true)]$Filename = "SCP_XML.xml"
+
+)
+$Target_Uri = $Global:iDRAC_OEM.'OemManager.v1_0_0#OemManager.ExportSystemConfiguration'.Target
+if (!$Credentials)
+        {
+        $User = Read-Host -Prompt "Please Enter CIFS username for $Cifs_IP"
+        $SecurePassword = Read-Host -Prompt "Enter CIFS Password for user $user" -AsSecureString
+        $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
+        }
+
+
+$JsonBody = @{ ExportFormat ="XML"
+   ShareParameters = @{
+    Target="ALL"
+    IPAddress=$Cifs_IP
+    ShareName=$Cifs_Sharename
+    ShareType="CIFS"
+    UserName=$User
+    Password=$Credentials.GetNetworkCredential().Password
+    FileName="R730_SCP.xml"}} | ConvertTo-Json
+
+$result = Invoke-iDRACRequest -uri "$iDRAC_baseurl/$Target_Uri" -Method Post -Body $JsonBody 
 }
