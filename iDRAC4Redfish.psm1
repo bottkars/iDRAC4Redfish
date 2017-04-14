@@ -496,7 +496,7 @@ $JsonBody = @{ ExportFormat ="XML"
 #$JsonBody
 $result = Invoke-iDRACRequest -uri "$iDRAC_baseurl$Target_Uri" -Method Post -Body $JsonBody -ContentType 'Application/json'
 
-#Write-Host "You can Monitor the Task by 'Get-iDRACodata -odata $($result.Headers.location)'"
+#
 if ($waitcomplete.IsPresent)
 	{
 	Write-Host "Waiting for $($result.Headers.location) to complete"
@@ -504,6 +504,7 @@ if ($waitcomplete.IsPresent)
 	}
 else
 	{
+	Write-Host "You can Monitor the Task by 'Get-iDRACodata $($result.Headers.location)'"
 	Write-Output $($result.Headers.location)
 	}
 
