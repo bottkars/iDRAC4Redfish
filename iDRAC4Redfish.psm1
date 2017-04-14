@@ -507,6 +507,6 @@ else
 	{
 	Write-Host "You can Monitor the Task by 'Get-iDRACodata $($result.Headers.location)'"
 	}
-Get-iDRACodata -odata $result.Headers
+Get-iDRACodata -odata $result.Headers.location
 
 }
