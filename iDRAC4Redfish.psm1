@@ -500,12 +500,13 @@ $result = Invoke-iDRACRequest -uri "$iDRAC_baseurl$Target_Uri" -Method Post -Bod
 if ($waitcomplete.IsPresent)
 	{
 	Write-Host "Waiting for $($result.Headers.location) to complete"
-	do {sleep 5} until (	(Get-iDRACodata -odata $($result.Headers.location)).TaskState -eq 'Completed')
+	do {sleep 5} until ((Get-iDRACodata -odata $($result.Headers.location)).TaskState -eq 'Completed')
+	Write-Host "Task Completed"
 	}
 else
 	{
 	Write-Host "You can Monitor the Task by 'Get-iDRACodata $($result.Headers.location)'"
-	Write-Output $($result.Headers.location)
+	Write-Output $($result.Headers)
 	}
 
 }
