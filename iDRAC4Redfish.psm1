@@ -110,7 +110,7 @@ function Invoke-iDRACRequest
 
 if ($Global:iDRAC_Headers)
 	{
-	Write-Host -ForegroundColor White "==> Calling $uri with Session $Global:iDRAC_Session_ID"
+	Write-verbose "==> Calling $uri with Session $Global:iDRAC_Session_ID"
 	if ($Body)
 		{
 		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType -Body $Body
@@ -419,7 +419,7 @@ function Get-iDRACodata
 [CmdletBinding(SupportsShouldProcess)]
     Param
     (
-        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
+        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1',Position = 0)]
         [Alias("@odata.id")]
         $odata
     )
@@ -428,7 +428,7 @@ begin
 {}
 process
 {
-Write-Host -ForegroundColor Green "==> getting elements for odata Link $odata"
+Write-Verbose "==> getting elements for odata Link $odata"
 (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($odata)").content | ConvertFrom-Json
 
 }
