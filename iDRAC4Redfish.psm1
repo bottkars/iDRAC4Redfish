@@ -489,6 +489,6 @@ $JsonBody = @{ ExportFormat ="XML"
     Password=$Credentials.GetNetworkCredential().Password
     FileName="R730_SCP.xml"}} | ConvertTo-Json
 $JsonBody
-$result = Invoke-iDRACRequest -uri "$iDRAC_baseurl/$Target_Uri" -Method Post -Body $JsonBody -ContentType 'Application/json'
+$result = Invoke-iDRACRequest -uri "$iDRAC_baseurl$Target_Uri" -Method Post -Body $JsonBody -ContentType 'Application/json'
 Write-Output $result
 }
