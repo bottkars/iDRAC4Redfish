@@ -71,4 +71,10 @@ Disconnect-iDRACSession
 ```
 ![image](https://cloud.githubusercontent.com/assets/8255007/25012052/94c2261e-206f-11e7-8b18-fe0705e23840.png)
 
+# Copy System Configuration Profiles for Cloning
+```Powershell
+Copy-iDRACSCP -Credentials $credential -Cifs_IP 172.21.1.103 -Cifs_Sharename dscfra -Filename export3.xml -waitcomplete
+```
+![image](https://cloud.githubusercontent.com/assets/8255007/25037685/d52e68c6-20fa-11e7-9b8c-8a56a273f0a5.png)
+
 @azurestack_guy. April 2017
