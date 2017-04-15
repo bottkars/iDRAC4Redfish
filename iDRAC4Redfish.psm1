@@ -70,7 +70,7 @@ function New-iDRACSession
 		$Global:iDRAC_Session_URI = $token.Headers.Location
 		$host.ui.RawUI.WindowTitle = "iDRAC IP: $iDRAC_IP, Session $Global:iDRAC_Session_ID for user $($Credentials.username)"
         Write-Host "Successfully connected to iDRAC with IP $iDRAC_IP and Session ID $iDRAC_Session_ID"
-        Write-Host " we got the following Schemas: "
+        Write-Host "we got the following Schemas: "
 		$Global:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
         $Global:iDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $Global:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
 
