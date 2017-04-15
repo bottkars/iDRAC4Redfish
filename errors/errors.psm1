@@ -32,7 +32,8 @@ Function Get-iDRACWebException
                     "*400*"
                         {
                         Write-Host -ForegroundColor Magenta $ExceptionMessage
-                        Write-Host -ForegroundColor White "400 Bad Request Badly formed URI, parameters, headers, or body content. Essentially a request syntax error or object not found"
+                        Write-Host -ForegroundColor White "400 Bad Request Badly formed URI, parameters, headers, or body content. Essentially a request syntax error or object not found
+						Possible wrong password on Session based Authentication"
                         }
                     "*401*"
                         {

@@ -101,15 +101,24 @@ function Invoke-iDRACRequest
 
 if ($Global:iDRAC_Headers)
 	{
-	Write-verbose "==> Calling $uri with Session $Global:iDRAC_Session_ID"
-	if ($Body)
+	try
 		{
-		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType -Body $Body
+		Write-verbose "==> Calling $uri with Session $Global:iDRAC_Session_ID"
+		if ($Body)
+			{
+			$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType -Body $Body
+			}
+		else
+			{
+			$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType
+			}
 		}
-	else
-		{
-		$Result = Invoke-WebRequest -UseBasicParsing -Uri $Uri -Method $Method -Headers $Global:iDRAC_Headers -ContentType $ContentType
-		}
+	catch
+        {
+        # Write-Warning $_.Exception.Message
+        Get-iDRACWebException -ExceptionMessage $_
+        Break
+        }
 	}
 else
 	{
