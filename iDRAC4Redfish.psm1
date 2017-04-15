@@ -1,4 +1,4 @@
-# 192.168.197.114 root calvin
+﻿# 192.168.197.114 root calvin
 function Unblock-Certs
 {
     Add-Type -TypeDefinition @"
@@ -45,7 +45,7 @@ function New-iDRACSession
         {
         $User = Read-Host -Prompt "Please Enter iDRAC username"
         $SecurePassword = Read-Host -Prompt "Enter iDRAC Password for user $user" -AsSecureString
-        $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
+        $Credentials = New-Object System.Management.Automation.PSCredential (â€œ$userâ€,$Securepassword)
         }
     write-Verbose "Generating Login Token"
     $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
@@ -77,7 +77,7 @@ function New-iDRACSession
 		$Global:iDRAC_XAUTH = $token.Headers.'X-Auth-Token'
 		$Global:iDRAC_Session_ID = ($token.Content | ConvertFrom-Json).id
 		$Global:iDRAC_Session_URI = $token.Headers.Location
-		$host.ui.RawUI.WindowTitle = “iDRAC IP: $iDRAC_IP, Session $Global:iDRAC_Session_ID for user $($Credentials.username)”
+		$host.ui.RawUI.WindowTitle = â€œiDRAC IP: $iDRAC_IP, Session $Global:iDRAC_Session_ID for user $($Credentials.username)â€
         Write-Host "Successfully connected to iDRAC with IP $iDRAC_IP and Session ID $iDRAC_Session_ID"
         Write-Host " we got the following Schemas: "
 		$Global:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
@@ -186,7 +186,7 @@ function Connect-iDRAC
         {
         $User = Read-Host -Prompt "Please Enter iDRAC username"
         $SecurePassword = Read-Host -Prompt "Enter iDRAC Password for user $user" -AsSecureString
-        $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
+        $Credentials = New-Object System.Management.Automation.PSCredential (â€œ$userâ€,$Securepassword)
         }
     write-Verbose "Generating Login Token"
     $Global:iDRAC_baseurl = "https://$($iDRAC_IP):$iDRAC_Port" # :$iDRAC_Port"
@@ -480,7 +480,7 @@ if (!$Credentials)
         {
         $User = Read-Host -Prompt "Please Enter CIFS username for $Cifs_IP"
         $SecurePassword = Read-Host -Prompt "Enter CIFS Password for user $user" -AsSecureString
-        $Credentials = New-Object System.Management.Automation.PSCredential (“$user”,$Securepassword)
+        $Credentials = New-Object System.Management.Automation.PSCredential (â€œ$userâ€,$Securepassword)
         }
 
 
