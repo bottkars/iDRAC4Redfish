@@ -222,7 +222,7 @@ $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest  -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Manager = "$base_api_uri$($outputobject.Members.'@odata.id')"
 $Global:iDRAC_OEM = (Get-iDRACodata -odata $iDRAC_Manager).Actions.Oem
-Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_Manager"
+Write-Verbose "==< Got $Myself URI $Global:iDRAC_Manager"
 } 
 function Get-iDRACSystemUri
 {
@@ -230,7 +230,7 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9) -replace "URI"
 $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Schema" ).content | ConvertFrom-Json
 $Global:iDRAC_System = "$base_api_uri$($outputobject.Members.'@odata.id')"
-Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_System"
+Write-Verbose "==< Got $Myself URI $Global:iDRAC_System"
 }
 function Get-iDRACChassisUri
 {
@@ -239,7 +239,7 @@ $Schema = ($Global:iDRAC_schemas | where name -Match $Myself).URL
 $outputobject = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Schema").content | ConvertFrom-Json
 $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')" 
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
-Write-Host -ForegroundColor Green "==< Got $Myself URI $Global:iDRAC_Chassis"
+Write-Verbose "==< Got $Myself URI $Global:iDRAC_Chassis"
 }
 function Get-iDRACManagerElement
 {
@@ -271,7 +271,7 @@ if ($members.members.count -gt 1)
     {
 	foreach ($member in $members.members)
 		{
-		Write-Host -ForegroundColor Green "==> getting SystemElement $member"
+		Write-Verbose "==> getting SystemElement $member"
 		$system_element += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
 		}
     }
@@ -312,7 +312,7 @@ foreach ($chassis in $Global:iDRAC_Chassis)
 	#$members
 		foreach ($member in $members.member)
 			{
-			Write-Host -ForegroundColor Green "==> getting ChassisElement  $($member.'@odata.id')"
+			Write-Verbose "==> getting ChassisElement  $($member.'@odata.id')"
 			$Chassis_element += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
 			}
 		}
@@ -350,7 +350,7 @@ if ($members.members.count -gt 1)
 #$members
     foreach ($member in $members.members)
         {
-        Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
+        Write-Verbose "==> getting ManagerElement  $($member.'@odata.id')"
         $Manager_element += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
         }
     }
@@ -387,7 +387,7 @@ $members = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager
 <#
 if ($members.members.count -gt 1)
     {
-        Write-Host -ForegroundColor Green "==> getting ManagerElement  $($member.'@odata.id')"
+        Write-Verbose "==> getting ManagerElement  $($member.'@odata.id')"
         $Manager_element = $Members.Content | ConvertFrom-Json | select -ExpandProperty Members
 		# += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
 
