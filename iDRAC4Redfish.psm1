@@ -196,22 +196,11 @@ function Connect-iDRAC
         {
         $Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Credential $credentials -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
         }
-    catch [System.Net.WebException]
-        {
-        # Write-Warning $_.Exception.Message
-        #Get-SIOWebException -ExceptionMessage $_.Exception.Message
-		Write-Host "to be defined"
-        Write-Verbose $_
-        Write-Warning $_.Exception.Message
-        Break
-        }
     catch
         {
-        Write-Verbose $_
-        Write-Warning $_.Exception.Message
-        break
+        Get-iDRACWebException -ExceptionMessage $_
+        Break
         }
-        #>
         Write-Host "Successfully connected to iDRAC with IP $iDRAC_IP"
         Write-Host " we got the following Schemas: "
         $Global:iDRAC_Schemas = $Schemas
