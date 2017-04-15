@@ -61,7 +61,7 @@ function New-iDRACSession
     catch [System.Net.WebException]
         {
         # Write-Warning $_.Exception.Message
-        Get-iDRACWebException -ExceptionMessage $_.Exception
+        # Get-iDRACWebException -ExceptionMessage $_.Exception.Message
 		Write-Host "to be defined"
         Write-Verbose $_
         Break
