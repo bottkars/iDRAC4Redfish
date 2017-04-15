@@ -58,19 +58,11 @@ function New-iDRACSession
 		$token = Invoke-WebRequest -Uri "$Global:iDRAC_baseurl/redfish/v1/Sessions" -Method Post -Body $Body -ContentType 'application/json' -UseBasicParsing
        
 		 }
-    catch [System.Net.WebException]
+    catch
         {
         # Write-Warning $_.Exception.Message
         Get-iDRACWebException -ExceptionMessage $_
-		Write-Host "to be defined"
-        Write-Verbose $_
         Break
-        }
-    catch
-        {
-        Write-Verbose $_
-        Write-Warning $_.Exception.Message
-        break
         }
         #>
 		$Global:iDRAC_XAUTH = $token.Headers.'X-Auth-Token'
