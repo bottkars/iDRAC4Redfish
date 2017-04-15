@@ -25,7 +25,7 @@ Function Get-iDRACWebException
                     "*SSL/TLS secure channel*"
                         {
                         Write-Host -ForegroundColor Magenta $ExceptionMessage
-                        Write-Host -ForegroundColor White "SSL/TLS secure channel error indicates untrasted certificates. Connect using -trustCert Option !"
+                        Write-Host -ForegroundColor White "SSL/TLS secure channel error indicates untrusted certificates. Connect using -trustCert Option !"
 
                         }
                     
@@ -43,9 +43,7 @@ Function Get-iDRACWebException
                     "*403*"
                         {
                         Write-Host -ForegroundColor Magenta $ExceptionMessage
-                        Write-Host -ForegroundColor White "403 Forbidden Not allowed - ScaleIO Gateway is disabled. Enable the gateway by editing the file
-<gateway installation directory>/webapps/ROOT/WEB-INF/classes/gatewayUser.properties
-The parameter features.enable_gateway must be set to true, and then you must restart the scaleio-gateway service."
+                        Write-Host -ForegroundColor White "403 Forbidden Not allowed - is redfish enabled on iDRAC ?."
                         }
                     "*404*"
                         {
