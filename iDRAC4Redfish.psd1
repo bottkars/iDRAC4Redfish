@@ -12,7 +12,7 @@
 # RootModule = 'Module.psd1'
 
 # Version number of this module.
-ModuleVersion = '1.3.3'
+ModuleVersion = '1.3.4'
 
 # ID used to uniquely identify this module
 GUID = '11460f31-b8c9-4747-a1ce-2ca5588c02a0'
@@ -77,7 +77,8 @@ PowerShellVersion = '3.0'
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-NestedModules = @("./idrac4redfish.psm1")
+NestedModules = @("./idrac4redfish.psm1",
+"./errors/errors.psm1")
 
 # Functions to export from this module
 FunctionsToExport = '*'
