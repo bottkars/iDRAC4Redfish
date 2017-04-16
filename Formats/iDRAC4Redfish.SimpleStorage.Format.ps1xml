@@ -10,7 +10,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <Width>30</Width>
+            <Width>15</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
