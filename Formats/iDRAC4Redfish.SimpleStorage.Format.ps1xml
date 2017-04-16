@@ -10,7 +10,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <Width>30</Width>
+            <Width>53</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -25,12 +25,12 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Id</Label>
-            <Width>30</Width>
+            <Width>20</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Status</Label>
-            <!--<AutoSize/>-->
+            <Width>40</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
