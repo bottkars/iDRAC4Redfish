@@ -10,7 +10,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <!--<AutoSize/>-->
+            <Width>30</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
