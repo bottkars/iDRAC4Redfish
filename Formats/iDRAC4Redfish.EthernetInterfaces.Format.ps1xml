@@ -10,7 +10,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <!--<AutoSize/>-->
+            <AutoSize/>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -37,7 +37,12 @@
           <Label>Speed</Label>
           <!--<AutoSize/>-->
           <Alignment>Left</Alignment>
-          </TableColumnHeader>          
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>MacAddress</Label>
+            <!--<AutoSize/>-->
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -59,7 +64,13 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>SpeedMbps</PropertyName>
-              </TableColumnItem>             
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>FullDuplex</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MacAddress</PropertyName>
+              </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
