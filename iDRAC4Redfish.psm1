@@ -268,7 +268,7 @@ function Get-iDRACSystemElement
 $system_element = @()
 if ($iDRAC_Element)
 	{
-	((Get-iDRACodata $iDRAC_System).$iDRAC_Element| Get-iDRACodata).members | Get-iDRACodata -PStype $iDRAC_Element
+	((Get-iDRACodata $iDRAC_System).$iDRAC_Element | Get-iDRACodata).members | Get-iDRACodata -PStype $iDRAC_Element
 	}
 else
 	{

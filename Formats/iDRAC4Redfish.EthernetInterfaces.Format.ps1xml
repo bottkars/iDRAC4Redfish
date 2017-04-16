@@ -58,7 +58,7 @@
                 <PropertyName>Status</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>Speed</PropertyName>
+                <PropertyName>SpeedMbps</PropertyName>
               </TableColumnItem>             
             </TableColumnItems>
           </TableRowEntry>
