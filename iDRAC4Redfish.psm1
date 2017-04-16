@@ -517,8 +517,6 @@ function Get-iDRACAccounts
 {
 $iDRAC_Accounts = @()
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) 
-$iDRAC_Accounts = (Get-iDRACodata -odata $Global:iDRAC_Manager/$Myself -PStype $Myself).Members | Get-iDRACodata
-$iDRAC_Accounts.pstypenames.Clear()
-$iDRAC_Accounts.pstypenames.Add('iDRAC.Accounts')
+$iDRAC_Accounts = (Get-iDRACodata -odata $Global:iDRAC_Manager/$Myself).Members | Get-iDRACodatac -PStype 'iDRAC.Accounts'
 Write-Output $iDRAC_Accounts
 }
