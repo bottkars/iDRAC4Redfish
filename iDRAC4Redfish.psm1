@@ -262,7 +262,7 @@ function Get-iDRACSystemElement
     (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
-        [ValidateSet('Processors','Storage/Controllers','EthernetInterfaces')]
+        [ValidateSet('Processors','SimpleStorage','EthernetInterfaces')]
         $iDRAC_Element
     )
 $system_element = @()
