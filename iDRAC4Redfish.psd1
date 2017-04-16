@@ -75,7 +75,8 @@ PowerShellVersion = '3.0'
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-'./Formats/iDRAC4Redfish.Accounts.Format.ps1xml'
+'./Formats/iDRAC4Redfish.Accounts.Format.ps1xml',
+'./Formats/iDRAC4Redfish.EthernetInterfaces.Format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess

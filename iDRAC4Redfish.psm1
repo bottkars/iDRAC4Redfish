@@ -266,6 +266,16 @@ function Get-iDRACSystemElement
         $iDRAC_Element
     )
 $system_element = @()
+if ($iDRAC_Element)
+	{
+	((Get-iDRACodata $iDRAC_System).$iDRAC_Element| Get-iDRACodata).members | Get-iDRACodata -PStype $iDRAC_Element
+	}
+else
+	{
+	Get-iDRACodata $iDRAC_System -PStype 'System'
+	}
+	
+<#
 $members = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_System/$iDRAC_Element").content | ConvertFrom-Json
 if ($members.members.count -gt 1)
     {
@@ -289,6 +299,7 @@ else
 	$system_element.PSTypeNames.Insert(0, "$iDRAC_Element")
 	}
 Write-Output $system_element
+#>
 }
 function Get-iDRACChassisElement
 {
