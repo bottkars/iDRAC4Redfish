@@ -504,7 +504,7 @@ Get-iDRACodata -odata $result.Headers.location
 function Get-iDRACAccounts
 {
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) 
-$Accounts = (Get-iDRACodata $Global:iDRAC_Manager).Members | Get-iDRACodata
+$Accounts = (Get-iDRACodata $Global:iDRAC_Manager/$Myself).Members | Get-iDRACodata
 $Accounts.PSTypeNames.Insert(0, $Myself)
 Write-Output $Accounts
 }
