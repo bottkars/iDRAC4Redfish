@@ -410,19 +410,31 @@ function Get-iDRACodata
     (
         [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1',Position = 0)]
         [Alias("@odata.id")]
-        $odata
+        $odata,
+		[Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1',Position = 1)]
+        [Alias("mytype")]
+        $PStype
+
     )
 
 begin
-{}
+{
+
+}
 process
 {
 Write-Verbose "==> getting elements for odata Link $odata"
-(Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($odata)").content | ConvertFrom-Json
-
+$Request = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($odata)").content | ConvertFrom-Json
+if ($PStype)
+	{
+	$Request.PSTypeNames.Clear()
+	$Request.PSTypeNames.insert(0,"iDRAC.$($PStype)")
+	}
+$Request
 }
 end
-{}
+{
+}
 
 }
 
@@ -503,10 +515,8 @@ Get-iDRACodata -odata $result.Headers.location
 
 function Get-iDRACAccounts
 {
-$Accounts = @()
+$iDRAC_Accounts = @()
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) 
-$Accounts = (Get-iDRACodata $Global:iDRAC_Manager/$Myself).Members | Get-iDRACodata
-$Accounts.PSTypeNames.Clear()
-$Accounts.PSTypeNames.Add("iDRAC.$Myself")
-Write-Output $Accounts
+$iDRAC_Accounts = (Get-iDRACodata -odata $Global:iDRAC_Manager/$Myself -PStype $Myself).Members | Get-iDRACodata
+Write-Output $iDRAC_Accounts
 }
