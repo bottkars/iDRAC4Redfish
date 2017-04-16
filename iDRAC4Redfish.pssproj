@@ -26,11 +26,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="errors\" />
+    <Folder Include="Formats\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="iDRAC4Redfish.psd1" />
     <Compile Include="iDRAC4Redfish.psm1" />
     <Compile Include="iDRAC4Redfish.tests.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Formats\iDRAC4Redfish.Accounts.Format.ps1xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
