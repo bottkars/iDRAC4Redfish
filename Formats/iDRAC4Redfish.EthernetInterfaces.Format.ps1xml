@@ -71,10 +71,10 @@
                 <PropertyName>SpeedMbps</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>FullDuplex</PropertyName>
+                <PropertyName>MacAddress</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>MacAddress</PropertyName>
+                <PropertyName>FullDuplex</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
