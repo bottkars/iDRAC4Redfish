@@ -2,7 +2,7 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Eternet</Name>
+      <Name>Ethernet</Name>
       <ViewSelectedBy>
         <TypeName>iDRAC.EthernetInterfaces</TypeName>
       </ViewSelectedBy>
@@ -10,7 +10,7 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <!--<AutoSize/>-->
+            <AutoSize/>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -40,6 +40,11 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>MacAddress</Label>
+            <!--<AutoSize/>-->
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>FullDuplex</Label>
             <!--<AutoSize/>-->
             <Alignment>Left</Alignment>
           </TableColumnHeader>
