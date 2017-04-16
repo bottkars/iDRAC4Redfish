@@ -4,7 +4,7 @@
     <View>
       <Name>Accounts</Name>
       <ViewSelectedBy>
-        <TypeName>idrac4redfish.SimpleStorage</TypeName>
+        <TypeName>idrac.SimpleStorage</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
