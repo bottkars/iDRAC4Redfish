@@ -13,7 +13,7 @@ SYNTAX
 
 if no Parameter is specified, the current active iDRAC Session is disconnected
 
-if all Sessions but current Sessions should be disconnected, use:
+if all but current Session should be disconnected, use:
 
 ```Powershell
 Get-iDRACSessions | where ID -notmatch $iDRAC_Session_ID  | Disconnect-iDRACSession
