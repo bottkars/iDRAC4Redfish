@@ -1,8 +1,7 @@
 # iDRAC4Redfish
 | Branch | AppVeyor | Documentation | 
 | ------ | -------- | ------------- | 
-| master | [![Build status](https://ci.appveyor.com/api/projects/status/7ft0dny2738lli8s/branch/master?svg=true)](https://ci.appveyor.com/project/bottkars/idrac4redfish)|
-[![Documentation Status](https://readthedocs.org/projects/idrac4redfish/badge/?version=latest)](http://idrac4redfish.readthedocs.io/en/latest/?badge=latest)
+| master | [![Build status](https://ci.appveyor.com/api/projects/status/7ft0dny2738lli8s/branch/master?svg=true)](https://ci.appveyor.com/project/bottkars/idrac4redfish)|[![Documentation Status](https://readthedocs.org/projects/idrac4redfish/badge/?version=latest)](http://idrac4redfish.readthedocs.io/en/latest/?badge=latest)
                 
 iDRAC4Redfish is a open Implementation of Powershell modules using Redfish / odata access to DELL|EMC Servers via iDRAC.
 
