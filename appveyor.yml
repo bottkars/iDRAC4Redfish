@@ -1,4 +1,4 @@
-version: 1.5.{build}
+version: 1.6.{build}
 nuget:
   account_feed: true
   project_feed: true
@@ -6,6 +6,6 @@ build:
   project: iDRAC4Redfish.sln
   parallel: true
   verbosity: minimal
-# only_commits:
-#  files:
-#    - iDRAC4Redfish/ 
+only_commits:
+  files:
+  - iDRAC4Redfish/ 
