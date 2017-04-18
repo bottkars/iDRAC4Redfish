@@ -77,6 +77,7 @@ PowerShellVersion = '3.0'
 FormatsToProcess = @(
 './Formats/iDRAC4Redfish.Accounts.Format.ps1xml',
 './Formats/iDRAC4Redfish.SimpleStorage.Format.ps1xml',
+'./Formats/iDRAC4Redfish.Sessions.Format.ps1xml',
 './Formats/iDRAC4Redfish.EthernetInterfaces.Format.ps1xml'
 )
 
