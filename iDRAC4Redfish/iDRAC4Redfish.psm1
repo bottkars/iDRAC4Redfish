@@ -358,7 +358,7 @@ $Manager_element = @()
 $members = Get-iDRACodata "$Global:iDRAC_Manager/$iDRAC_Element"
 if ($($members.members))
     {
-    $Manager_element += $members.members | Get-iDRACodata -PStype $iDRAC_Element
+    $Manager_element += ($($members.members) | Get-iDRACodata -PStype $iDRAC_Element )
     }
 else
     {
@@ -371,8 +371,8 @@ else
 		{
 		$Manager_element.PSTypeNames.Insert(0, "idrac.Manager")
 		}
+	}
 Write-Output $Manager_element
-}
 }
 
 
