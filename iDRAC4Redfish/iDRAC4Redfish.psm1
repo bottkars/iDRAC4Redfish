@@ -356,7 +356,7 @@ function Get-iDRACManagerElement
 $members = @()
 $Manager_element = @()
 $members = Get-iDRACodata "$Global:iDRAC_Manager/$iDRAC_Element"
-if ($members.members)
+if ($($members.members))
     {
     $Manager_element += $members.members | Get-iDRACodata -PStype $iDRAC_Element
     }
@@ -381,7 +381,7 @@ function Get-iDRACLifecycleLog
 [CmdletBinding(SupportsShouldProcess)]
     Param
     (
-        #[Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
+        #[Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName=
         #[Alias("Function")]
         #[ValidateSet('LogServices','NetworkProtocol')]
         #$iDRAC_Element
