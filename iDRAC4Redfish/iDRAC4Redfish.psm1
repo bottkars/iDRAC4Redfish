@@ -442,9 +442,7 @@ function Get-iDRACSessions
 $Sessions = @()
 $iDRAC_Sessions = @()
 $Sessions = ((Invoke-iDRACRequest -uri $iDRAC_baseurl/redfish/v1/Sessions).Content | ConvertFrom-Json).members
-
 $Sessions | Get-iDRACodata -PStype Sessions
-
 }
 
 
@@ -458,7 +456,6 @@ param(
                    ValueFromPipeline=$true)][pscredential]$Credentials,
 		[Parameter(Mandatory=$true,
                    ValueFromPipeline=$true)]$Cifs_Sharename,
-#$ShareType = "CIFS"
 		[Parameter(Mandatory=$false,
                    ValueFromPipeline=$true)]$Filename = "SCP_XML.xml",
 		[Parameter(Mandatory=$false,
@@ -512,3 +509,6 @@ $Myself = $MyInvocation.MyCommand.Name.Substring(9)
 $iDRAC_Accounts = (Get-iDRACodata -odata $Global:iDRAC_Manager/$Myself).Members | Get-iDRACodata -PStype $Myself
 Write-Output $iDRAC_Accounts
 }
+
+
+

@@ -87,7 +87,11 @@ NestedModules = @("./idrac4redfish.psm1",
 "./errors/errors.psm1")
 
 # Functions to export from this module
-FunctionsToExport = '*'
+FunctionsToExport = ('Connect-iDRAC',
+'Copy-iDRACSCP','Disconnect-iDRACSession','Get-iDRACAccounts','Get-iDRACChassisElement',
+'Get-iDRACLifecycleLog','Get-iDRACManagerElement','Get-iDRACodata','Get-iDRACSessions',
+'Get-iDRACSystemElement','New-iDRACSession'
+)
 
 # Cmdlets to export from this module
 CmdletsToExport = '*'
