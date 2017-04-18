@@ -140,12 +140,19 @@ function Disconnect-iDRACSession
     [OutputType([int])]
 	Param
     (
-    [Parameter(Mandatory=$false,ParameterSetName = "ByUri")]$Session_Uri = $Global:iDRAC_Session_URI,
-    [Parameter(Mandatory=$false,ParameterSetName = "ByID")]$Session_ID
+    [Parameter(Mandatory=$false,ParameterSetName = "ByUri",
+	ValueFromPipelineByPropertyName=$true)]
+	$Session_Uri = $Global:iDRAC_Session_URI,
+    [Parameter(Mandatory=$false,ParameterSetName = "ByID",
+	ValueFromPipelineByPropertyName=$true)]
+	$Session_ID
 
 	#[Parameter(Mandatory=$false)]$Idrac_Uri = $Global:iDRAC_baseurl
 	)
-
+begin
+{}
+process
+{
 if ($Session_ID)
 	{
 	$Session_Uri = "/redfish/v1/Sessions/$Session_ID"
@@ -153,6 +160,8 @@ if ($Session_ID)
 Write-Host -ForegroundColor Green "==> Calling delete $Session_Uri with Session $Global:iDRAC_Session_ID"
 $Disconnect = Invoke-iDRACRequest -Uri $Global:iDRAC_baseurl$Session_Uri -Method Delete
 Write-Host ($Disconnect.Content | ConvertFrom-Json).'@Message.ExtendedInfo'.Message
+}
+end{}
 }
 
 function Connect-iDRAC
