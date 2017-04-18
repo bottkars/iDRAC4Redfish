@@ -73,8 +73,7 @@ function New-iDRACSession
         Write-Host "we got the following Schemas: "
 		$Global:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
         $Global:iDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $Global:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
-
-		$Global:iDRAC_Schemas 
+		write-host $idrac_schemas.name
 		#$Schemas
 		Get-iDRACManagerUri
 		Get-iDRACChassisUri
@@ -215,7 +214,7 @@ function Connect-iDRAC
         Write-Host "Successfully connected to iDRAC with IP $iDRAC_IP"
         Write-Host " we got the following Schemas: "
         $Global:iDRAC_Schemas = $Schemas
-		#$Schemas
+		write-host $idrac_schemas.name
 		Get-iDRACManagerUri
 		Get-iDRACChassisUri
 		Get-iDRACSystemUri
