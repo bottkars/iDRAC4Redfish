@@ -1,0 +1,10 @@
+site_name: iDRAC4Redfish Documentation
+repo_url: https://github.com/bottkars/iDRAC4Redfish
+site_author: Karsten Bott
+theme: readthedocs
+
+copyright: "iDRAC4Redfish is licensed under the <a href='https://https://github.com/bottkars/iDRAC4Redfish/blob/master/LICENSE'>MIT license</a>"
+pages:
+  - Home: index.md
+  - Introduction:
+    - Readme: README.md
