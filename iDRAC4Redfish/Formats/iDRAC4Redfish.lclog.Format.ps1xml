@@ -10,12 +10,12 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>MessageID</Label>
-            <!--<AutoSize/>-->
+            <Width>10</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Created</Label>
-            <!--<AutoSize/>-->
+            <Width>25</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -25,7 +25,7 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Severity</Label>
-            <!--<AutoSize/>-->
+            <Width>8</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
         </TableHeaders>
