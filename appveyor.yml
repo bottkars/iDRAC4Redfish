@@ -6,3 +6,6 @@ build:
   project: iDRAC4Redfish.sln
   parallel: true
   verbosity: minimal
+ only_commits:
+  files:
+    - iDRAC4Redfish/ 
