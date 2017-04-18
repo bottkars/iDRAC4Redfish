@@ -403,27 +403,18 @@ function Get-iDRACLifecycleLog
         #$iDRAC_Element
     )
 $members = @()
-$Manager_element = @()
+$lclogs = @()
 
 $members = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/Logs/Lclog").content | ConvertFrom-Json
-<#
-if ($members.members.count -gt 1)
-    {
-        Write-Verbose "==> getting ManagerElement  $($member.'@odata.id')"
-        $Manager_element = $Members.Content | ConvertFrom-Json | select -ExpandProperty Members
-		# += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
 
-    }
-else
-    {
-    $Manager_element = $members[0]
-    }
+foreach ($member in $members.members)
+	{
+	$member.PSTypeNames.Clear()
+	$member.PSTypeNames.insert(0,'lclog')
+	$lclogs += $member
+	}
 
-	$Manager_element.PSTypeNames.Insert(0, "LifecycleLogs")
-
-
-# $members.PSTypeNames.Insert(0, "LifecycleLogs")#>
-Write-Output $members.members
+Write-Output $lclogs
 }
 function Get-iDRACodata
 {
