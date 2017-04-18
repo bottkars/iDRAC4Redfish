@@ -410,7 +410,7 @@ $members = (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager
 foreach ($member in $members.members)
 	{
 	$member.PSTypeNames.Clear()
-	$member.PSTypeNames.insert(0,'lclog')
+	$member.PSTypeNames.insert(0,'idrac.lclog')
 	$lclogs += $member
 	}
 
