@@ -1,6 +1,6 @@
-# New-iDRACSession
+﻿# New-iDRACSession
 
-New-iDRACSession connect�s to an iDRAC Controller ussing Session based Authentication
+New-iDRACSession connect´s to an iDRAC Controller ussing Session based Authentication
 
 ```Powershell
 NAME

@@ -1,4 +1,4 @@
-# Get-iDRACodata
+﻿# Get-iDRACodata
 
 
 Get-iDRACodata is Metafunction to retrieve JSON Data from odata links
