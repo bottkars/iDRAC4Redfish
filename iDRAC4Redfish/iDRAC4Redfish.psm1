@@ -297,7 +297,7 @@ Write-Output $system_element
 }
 function Get-iDRACChassisElement
 {
-[CmdletBinding(SupportsShouldProcess)]
+[CmdletBinding(SupportsShouldProcess,HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACChassisElement/")]
     Param
     (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
