@@ -6,7 +6,6 @@ Get-iDRACodata is Metafunction to retrieve JSON Data from odata links
 This example retrieves the odata link for simple Storage from the Get-iDRACSystemElement function:
 
 ```Powershell
-
 (Get-iDRACSystemElement).SimpleStorage
 ``` 
 The result as displayed :
@@ -16,13 +15,15 @@ The result as displayed :
 /redfish/v1/Systems/System.Embedded.1/Storage/Controllers
 ``` 
 
+we can now use the displayed @odata.id object to pipe it into Get-iDRACodata
 
 ```Powershell
-
-
 (Get-iDRACSystemElement).SimpleStorage | Get-iDRACodata
+```
 
+Result:
 
+```
 @odata.context      : /redfish/v1/$metadata#SimpleStorageCollection.SimpleStorageCollection
 @odata.id           : /redfish/v1/Systems/System.Embedded.1/Storage/Controllers
 @odata.type         : #SimpleStorageCollection.SimpleStorageCollection
@@ -33,5 +34,4 @@ Members             : {@{@odata.id=/redfish/v1/Systems/System.Embedded.1/Storage
                       @{@odata.id=/redfish/v1/Systems/System.Embedded.1/Storage/Controllers/AHCI.Embedded.2-1}}
 Members@odata.count : 4
 Name                : Simple Storage Collection
-
 ```
