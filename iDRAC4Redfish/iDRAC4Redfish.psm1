@@ -356,13 +356,9 @@ function Get-iDRACManagerElement
 $members = @()
 $Manager_element = @()
 $members += Get-iDRACodata "$Global:iDRAC_Manager/$iDRAC_Element"
-if ($members.members.count -gt 1)
+if ($members.members)
     {
-    foreach ($member in $members.members)
-        {
-        Write-Verbose "==> getting ManagerElement  $($member.'@odata.id')"
-        $Manager_element += $member | Get-iDRACodata -PStype $iDRAC_Element
-        }
+    $Manager_element += $members.members | Get-iDRACodata -PStype $iDRAC_Element
     }
 else
     {
