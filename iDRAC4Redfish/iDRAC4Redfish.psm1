@@ -142,9 +142,11 @@ function Disconnect-iDRACSession
     (
     [Parameter(Mandatory=$false,ParameterSetName = "ByUri",
 	ValueFromPipelineByPropertyName=$true)]
+	[Alias("@odata.id")]
 	$Session_Uri = $Global:iDRAC_Session_URI,
     [Parameter(Mandatory=$false,ParameterSetName = "ByID",
 	ValueFromPipelineByPropertyName=$true)]
+	[Alias("id")]
 	$Session_ID
 
 	#[Parameter(Mandatory=$false)]$Idrac_Uri = $Global:iDRAC_baseurl
