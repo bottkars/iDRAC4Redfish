@@ -250,12 +250,11 @@ Write-Verbose "==< Got $Myself URI $Global:iDRAC_Chassis"
 }
 function Get-iDRACSystemElement
 {
-[CmdletBinding(SupportsShouldProcess)]
+[CmdletBinding(SupportsShouldProcess,HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACSystemElement/")]
+
     Param
     (
-        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1',
-		HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACSystemElement/")]
-
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
         [ValidateSet('Processors','SimpleStorage','EthernetInterfaces')]
         $iDRAC_Element
