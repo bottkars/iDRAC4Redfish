@@ -349,7 +349,7 @@ function Get-iDRACManagerElement
     (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
-        [ValidateSet('LogServices','NetworkProtocol','')]
+        [ValidateSet('LogServices','NetworkProtocol',' ')]
         $iDRAC_Element
     )
 
