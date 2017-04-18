@@ -366,13 +366,15 @@ if ($members.members.count -gt 1)
     }
 else
     {
-    $Manager_element = $members[0]
-	$Manager_element.PSTypeNames.Insert(0, $iDRAC_Element)
-    }
-if (!$iDRAC_Element) 
-	{
-	$Manager_element.PSTypeNames.Insert(0, "Manager")
-	}
+	$Manager_element = $members[0]
+	if ($iDRAC_Element)
+		{
+		$Manager_element.PSTypeNames.Insert(0, $iDRAC_Element)
+		}
+	else
+		{
+		$Manager_element.PSTypeNames.Insert(0, "Manager")
+		}
 Write-Output $Manager_element
 }
 
