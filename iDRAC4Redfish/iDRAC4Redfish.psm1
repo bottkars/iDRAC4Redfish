@@ -134,7 +134,7 @@ Write-Output $Result
 function Disconnect-iDRACSession
 {
     [CmdletBinding(DefaultParameterSetName='ByUri',
-	HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Disconnetc-iDRACSession/")]
+	HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Disconnect-iDRACSession/")]
 	Param
     (
     [Parameter(Mandatory=$false,ParameterSetName = "ByUri",
