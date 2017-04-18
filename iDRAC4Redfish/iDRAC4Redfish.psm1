@@ -355,7 +355,7 @@ function Get-iDRACManagerElement
 
 $members = @()
 $Manager_element = @()
-$members += Get-iDRACodata "$Global:iDRAC_Manager/$iDRAC_Element"
+$members = Get-iDRACodata "$Global:iDRAC_Manager/$iDRAC_Element"
 if ($members.members)
     {
     $Manager_element += $members.members | Get-iDRACodata -PStype $iDRAC_Element
