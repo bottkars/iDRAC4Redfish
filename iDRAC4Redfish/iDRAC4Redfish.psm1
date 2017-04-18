@@ -15,7 +15,7 @@
 }
 function New-iDRACSession
 {
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/New-iDRACSession/")]
     [OutputType([int])]
     Param
     (
@@ -84,8 +84,8 @@ function New-iDRACSession
 }
 function Invoke-iDRACRequest
 {
-    [CmdletBinding()]
-    [OutputType([int])]
+    [CmdletBinding(HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Invoke-iDRACRequest/")]
+    #[OutputType([int])]
     Param
     (
         # Param1 help description
@@ -133,8 +133,8 @@ Write-Output $Result
 }
 function Disconnect-iDRACSession
 {
-    [CmdletBinding(DefaultParameterSetName='ByUri')]
-    [OutputType([int])]
+    [CmdletBinding(DefaultParameterSetName='ByUri',
+	HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Disconnetc-iDRACSession/")]
 	Param
     (
     [Parameter(Mandatory=$false,ParameterSetName = "ByUri",
@@ -430,7 +430,7 @@ end
 }
 function Get-iDRACSessions
 {
-
+[CmdletBinding(HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACSessions/")]
 $Sessions = @()
 $iDRAC_Sessions = @()
 $Sessions = ((Invoke-iDRACRequest -uri $iDRAC_baseurl/redfish/v1/Sessions).Content | ConvertFrom-Json).members
