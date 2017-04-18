@@ -252,18 +252,7 @@ $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')"
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Verbose "==< Got $Myself URI $Global:iDRAC_Chassis"
 }
-function Get-iDRACManagerElement
-{
-[CmdletBinding(SupportsShouldProcess)]
-    Param
-    (
-        [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
-        [Alias("Function")]
-        $iDRAC_Element
-    )
-(Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/$iDRAC_Element" ).content | ConvertFrom-Json
 
-}
 
 
 function Get-iDRACSystemElement
@@ -360,36 +349,33 @@ function Get-iDRACManagerElement
     (
         [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
         [Alias("Function")]
-        [ValidateSet('LogServices','NetworkProtocol')]
+        [ValidateSet('LogServices','NetworkProtocol','')]
         $iDRAC_Element
     )
+
 $members = @()
 $Manager_element = @()
-
-$members += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$Global:iDRAC_Manager/$iDRAC_Element").content | ConvertFrom-Json
+$members += Get-iDRACodata "$Global:iDRAC_Manager/$iDRAC_Element"
 if ($members.members.count -gt 1)
     {
-#$members
     foreach ($member in $members.members)
         {
         Write-Verbose "==> getting ManagerElement  $($member.'@odata.id')"
-        $Manager_element += (Invoke-iDRACRequest -Uri "$Global:iDRAC_baseurl$($member.'@odata.id')").content | ConvertFrom-Json
+        $Manager_element += $member | Get-iDRACodata -PStype $iDRAC_Element
         }
     }
 else
     {
     $Manager_element = $members[0]
     }
-if ($iDRAC_Element) 
-	{
-	$Manager_element.PSTypeNames.Insert(0, "$iDRAC_Element")
-	}
-else
+if (!$iDRAC_Element) 
 	{
 	$Manager_element.PSTypeNames.Insert(0, "Manager")
 	}
 Write-Output $Manager_element
 }
+
+
 
 
 function Get-iDRACLifecycleLog
@@ -469,12 +455,12 @@ function Copy-iDRACSCP
 {
 
 param( 
-		[Parameter(Mandatory=$false,
-                   ValueFromPipeline=$true)]$Cifs_IP = "172.21.1.103",
+		[Parameter(Mandatory=$true,
+                   ValueFromPipeline=$true)]$Cifs_IP,
         [Parameter(Mandatory=$false,
                    ValueFromPipeline=$true)][pscredential]$Credentials,
-		[Parameter(Mandatory=$false,
-                   ValueFromPipeline=$true)]$Cifs_Sharename = "dscfra",
+		[Parameter(Mandatory=$true,
+                   ValueFromPipeline=$true)]$Cifs_Sharename,
 #$ShareType = "CIFS"
 		[Parameter(Mandatory=$false,
                    ValueFromPipeline=$true)]$Filename = "SCP_XML.xml",
