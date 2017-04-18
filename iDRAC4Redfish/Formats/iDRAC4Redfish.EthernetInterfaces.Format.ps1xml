@@ -2,7 +2,7 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Ethernet</Name>
+      <Name>EthernetInterfaces</Name>
       <ViewSelectedBy>
         <TypeName>iDRAC.EthernetInterfaces</TypeName>
       </ViewSelectedBy>

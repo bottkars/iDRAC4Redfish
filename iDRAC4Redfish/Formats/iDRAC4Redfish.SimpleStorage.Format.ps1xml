@@ -2,7 +2,7 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Accounts</Name>
+      <Name>SimpleStorage</Name>
       <ViewSelectedBy>
         <TypeName>idrac.SimpleStorage</TypeName>
       </ViewSelectedBy>

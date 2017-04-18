@@ -4,7 +4,7 @@
     <View>
       <Name>Sessions</Name>
       <ViewSelectedBy>
-        <TypeName>idrac.Sessions</TypeName>
+        <TypeName>iDRAC.Sessions</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
