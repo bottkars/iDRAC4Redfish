@@ -12,7 +12,7 @@
 # RootModule = 'Module.psd1'
 
 # Version number of this module.
-ModuleVersion = '1.6.2'
+ModuleVersion = '1.6.3'
 
 # ID used to uniquely identify this module
 GUID = '11460f31-b8c9-4747-a1ce-2ca5588c02a0'
@@ -41,7 +41,7 @@ Copyright = '(c) 2017 . All rights reserved.
 '
 
 # Description of the functionality provided by this module
-Description = 'Configure iDRAC using RedFish API'
+Description = 'Configure DELL iDRAC using RedFish API'
 
 # Minimum version of the Windows PowerShell engine required by this module
 PowerShellVersion = '3.0'
