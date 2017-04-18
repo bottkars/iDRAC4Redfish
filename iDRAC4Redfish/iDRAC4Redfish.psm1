@@ -391,9 +391,12 @@ foreach ($member in $members.members)
 
 Write-Output $lclogs
 }
+#<
+.LINK http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACodata/
+#>
 function Get-iDRACodata
 {
-[CmdletBinding(SupportsShouldProcess)]
+[CmdletBinding(SupportsShouldProcess,HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACodata/")]
     Param
     (
         [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true,ParameterSetName='1',Position = 0)]
