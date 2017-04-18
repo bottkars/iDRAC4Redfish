@@ -73,7 +73,7 @@ function New-iDRACSession
         Write-Host "we got the following Schemas: "
 		$Global:iDRAC_Headers = @{'X-Auth-Token'= $iDRAC_XAUTH} # | ConvertTo-Json -Compress
         $Global:iDRAC_Schemas = (Invoke-WebRequest -UseBasicParsing "$Global:iDRAC_baseurl/redfish/v1/odata" -Headers $Global:iDRAC_Headers -ContentType 'Application/Json' ).content | ConvertFrom-Json | select -ExpandProperty value
-		write-host $idrac_schemas.name
+		write-host -ForegroundColor Green $idrac_schemas.name
 		#$Schemas
 		Get-iDRACManagerUri
 		Get-iDRACChassisUri
