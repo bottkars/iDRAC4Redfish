@@ -373,7 +373,6 @@ else
 		}
 Write-Output $Manager_element
 }
-
 }
 
 
