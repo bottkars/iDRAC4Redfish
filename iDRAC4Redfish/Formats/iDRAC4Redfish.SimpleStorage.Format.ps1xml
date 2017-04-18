@@ -14,11 +14,6 @@
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Description</Label>
-            <!--<AutoSize/>-->
-            <Alignment>Left</Alignment>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>Devices</Label>
             <!--<AutoSize/>-->
             <Alignment>Left</Alignment>
@@ -33,20 +28,12 @@
             <Width>40</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>UEFIDevicePath</Label>
-            <!--<AutoSize/>-->
-            <Alignment>Left</Alignment>
-          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Description</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Devices</PropertyName>
@@ -56,9 +43,6 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Status</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>UEFIDevicePath</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
