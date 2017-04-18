@@ -12,7 +12,7 @@
 # RootModule = 'Module.psd1'
 
 # Version number of this module.
-ModuleVersion = '1.6.6'
+ModuleVersion = '1.6.7'
 
 # ID used to uniquely identify this module
 GUID = '11460f31-b8c9-4747-a1ce-2ca5588c02a0'

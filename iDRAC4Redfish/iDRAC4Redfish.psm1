@@ -1,5 +1,4 @@
-﻿# 192.168.197.114 root calvin
-function Unblock-Certs
+﻿function Unblock-Certs
 {
     Add-Type -TypeDefinition @"
 	    using System.Net;
@@ -14,7 +13,6 @@ function Unblock-Certs
 "@
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object -TypeName TrustAllCertsPolicy
 }
-
 function New-iDRACSession
 {
     [CmdletBinding()]
@@ -164,7 +162,6 @@ Write-Host ($Disconnect.Content | ConvertFrom-Json).'@Message.ExtendedInfo'.Mess
 }
 end{}
 }
-
 function Connect-iDRAC
 {
     [CmdletBinding()]
@@ -251,9 +248,6 @@ $Global:iDRAC_Chassis = "$base_api_uri$($outputobject.Members.'@odata.id')"
 $Global:iDRAC_Chassis = $Global:iDRAC_Chassis -split " "
 Write-Verbose "==< Got $Myself URI $Global:iDRAC_Chassis"
 }
-
-
-
 function Get-iDRACSystemElement
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -373,8 +367,6 @@ else
 	}
 Write-Output $Manager_element
 }
-
-
 function Get-iDRACLifecycleLog
 {
 [CmdletBinding(SupportsShouldProcess)]
@@ -433,9 +425,6 @@ end
 }
 
 }
-
-
-
 function Get-iDRACSessions
 {
 
@@ -444,8 +433,6 @@ $iDRAC_Sessions = @()
 $Sessions = ((Invoke-iDRACRequest -uri $iDRAC_baseurl/redfish/v1/Sessions).Content | ConvertFrom-Json).members
 $Sessions | Get-iDRACodata -PStype Sessions
 }
-
-
 function Copy-iDRACSCP
 {
 
@@ -500,8 +487,6 @@ else
 Get-iDRACodata -odata $result.Headers.location
 
 }
-
-
 function Get-iDRACAccounts
 {
 $iDRAC_Accounts = @()

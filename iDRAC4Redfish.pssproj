@@ -27,6 +27,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="docs\" />
+    <Folder Include="docs\functions\" />
     <Folder Include="errors\" />
     <Folder Include="Formats\" />
   </ItemGroup>
