@@ -253,7 +253,9 @@ function Get-iDRACSystemElement
 [CmdletBinding(SupportsShouldProcess)]
     Param
     (
-        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1')]
+        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName=$true,ParameterSetName='1',
+		HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Get-iDRACSystemElement/")]
+
         [Alias("Function")]
         [ValidateSet('Processors','SimpleStorage','EthernetInterfaces')]
         $iDRAC_Element
