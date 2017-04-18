@@ -378,7 +378,7 @@ else
 Write-Output $Manager_element
 }
 
-
+}
 
 
 function Get-iDRACLifecycleLog
