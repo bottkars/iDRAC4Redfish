@@ -367,6 +367,7 @@ if ($members.members.count -gt 1)
 else
     {
     $Manager_element = $members[0]
+	$Manager_element.PSTypeNames.Insert(0, $iDRAC_Element)
     }
 if (!$iDRAC_Element) 
 	{
