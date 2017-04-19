@@ -7,6 +7,6 @@ copyright: "iDRAC4Redfish is licensed under the <a href='https://https://github.
 pages:
   - Home: index.md
     - about: README.md
-    - Installation; installation.md
+    - Installation: installation.md
     - Examples: Examples.md
     - Fuctions:
