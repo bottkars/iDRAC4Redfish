@@ -8,4 +8,4 @@ build:
   verbosity: minimal
 only_commits:
   files:
-  - iDRAC4Redfish/ 
+  - iDRAC4Redfish/
