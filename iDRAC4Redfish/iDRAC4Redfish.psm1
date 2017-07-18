@@ -491,9 +491,20 @@ Get-iDRACodata -odata $result.Headers.location
 }
 function Get-iDRACAccounts
 {
+[CmdletBinding()]
+    Param (
+        	[Parameter(ParameterSetName = "1", Mandatory = $False)]$AccountID
+
+    )
 $iDRAC_Accounts = @()
 $Myself = $MyInvocation.MyCommand.Name.Substring(9) 
+if ($AccountID) {
+    $iDRAC_Accounts = (Get-iDRACodata -odata $Global:iDRAC_Manager/$Myself/$AccountID)
+    $iDRAC_Accounts.PSTypeNames.insert(0,"iDRAC.$($PStype)")
+    }
+else {
 $iDRAC_Accounts = (Get-iDRACodata -odata $Global:iDRAC_Manager/$Myself).Members | Get-iDRACodata -PStype $Myself
+}
 Write-Output $iDRAC_Accounts
 }
 
@@ -503,9 +514,9 @@ function Set-iDRACAccount
 [CmdletBinding()]
 	param (
     [Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
-    [ValidateSet('Administrator','Operator','User','None')]$Role,
+    [ValidateSet('Administrator','Operator','User','None')]$RoleID,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $false)][securestring]$User_Password,
-	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]$AccountID,
+	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)][ALIAS('ID')]$AccountID,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]$username
 	)
 
