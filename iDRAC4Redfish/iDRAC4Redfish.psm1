@@ -511,9 +511,9 @@ Write-Output $iDRAC_Accounts
 
 function Set-iDRACAccount
 {
-[CmdletBinding()]
+[CmdletBinding(HelpUri = "http://idrac4redfish.readthedocs.io/en/latest/functions/Set-iDRACAccount/")]
 	param (
-    [Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
+    [Parameter(ParameterSetName = "1", Mandatory = $false, ValueFromPipelineByPropertyName = $True)]
     [ValidateSet('Administrator','Operator','User','None')]$RoleID,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $false)][securestring]$User_Password,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)][ALIAS('ID')]$AccountID,
