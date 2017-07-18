@@ -503,7 +503,7 @@ function Set-iDRACAccount
 [CmdletBinding()]
 	param (
     [Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
-    [ValidateSet('Administrator','Operator','User','Anonymous')]$Role,
+    [ValidateSet('Administrator','Operator','User','None')]$Role,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $false)][securestring]$User_Password,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]$AccountID,
 	[Parameter(ParameterSetName = "1", Mandatory = $True, ValueFromPipelineByPropertyName = $True)]$username
@@ -519,7 +519,8 @@ process {
 $PlainPassword = ([System.Runtime.InteropServices.marshal]::PtrToStringAuto([System.Runtime.InteropServices.marshal]::SecureStringToBSTR($user_Password)))
 $Json_body = @{"UserName" = $username;"RoleId" = $Role ;"Password" = $PlainPassword } | ConvertTo-Json -Compress
 write-verbose $Json_body
-Invoke-iDRACRequest -uri $Global:iDRAC_baseurl$Global:iDRAC_Manager/Accounts/$AccountID -Body $Json_body -Method Patch -Verbose -ContentType "application/json"
+$Message = Invoke-iDRACRequest -uri $Global:iDRAC_baseurl$Global:iDRAC_Manager/Accounts/$AccountID -Body $Json_body -Method Patch -ContentType "application/json"
+write-host ($message.Content |ConvertFrom-Json).'@Message.ExtendedInfo'.Message
 }
 
 
